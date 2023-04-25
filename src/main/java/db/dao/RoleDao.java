@@ -4,7 +4,7 @@ import db.entity.Role;
 
 import java.util.List;
 
-public interface RoleDAO extends GenericDAO<Role> {
+public interface RoleDao extends GenericDao<Role> {
 
 	List<Role> getAll();
 }

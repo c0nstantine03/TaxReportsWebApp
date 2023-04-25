@@ -2,7 +2,7 @@ package db.entity;
 
 import java.util.Objects;
 
-public class Residency implements java.io.Serializable {
+public class Residency {
     private Long id;
     private String name;
 

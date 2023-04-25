@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 // This class have to read DB configuration from XML file
-// And then provide it to DataSource class
-class ConfigurationManager {
+// and then provide it to DataSource class
+public class ConfigurationManager {
 	private final String filename = "database-config.xml";
 	private static volatile ConfigurationManager instance;
 	private Properties properties;
@@ -18,6 +18,7 @@ class ConfigurationManager {
 		}
 	}
 
+	// Double-Checked Instantiation
 	public static ConfigurationManager getInstance() throws IOException {
 		ConfigurationManager localInstance = instance;
 		if (localInstance == null) {

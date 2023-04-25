@@ -1,6 +1,6 @@
 package db.dao.impl.mysql;
 
-import db.dao.PersonDAO;
+import db.dao.PersonDao;
 import db.entity.Person;
 import org.jetbrains.annotations.*;
 
@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonDAOImpl implements PersonDAO {
+public class PersonDaoImpl implements PersonDao {
     private final Connection connection;
     private final String SQL_INSERT_PERSON = "INSERT INTO person_list (id, name) VALUES (?, ?)";
     private final String SQL_SELECT_ALL_PERSON = "SELECT id, name FROM person_list";
@@ -16,12 +16,12 @@ public class PersonDAOImpl implements PersonDAO {
     private final String SQL_UPDATE_PERSON = "UPDATE person_list SET name = ? WHERE id = ?";
     private final String SQL_DELETE_PERSON = "DELETE FROM person_list WHERE id = ?";
 
-    public PersonDAOImpl(Connection connection) {
+    public PersonDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public void add(@NotNull Person entity) {
+    public void create(@NotNull Person entity) {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PERSON)) {
 
@@ -55,7 +55,7 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Person getById(Long id) {
+    public Person findById(Long id) {
 
         Person entity = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID_PERSON)) {

@@ -2,7 +2,7 @@ package db.entity;
 
 import java.util.Objects;
 
-public class Person implements java.io.Serializable {
+public class Person {
     private Long id;
     private String name;
 

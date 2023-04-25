@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class DBUtilNew1 {
+public class DBUtilAnotherOne {
 	public Connection getConnection() throws SQLException {
 		ResourceBundle resource = ResourceBundle.getBundle("database");
 		String url = resource.getString("url");

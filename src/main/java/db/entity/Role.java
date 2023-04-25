@@ -2,7 +2,7 @@ package db.entity;
 
 import java.util.Objects;
 
-public class Role implements java.io.Serializable {
+public class Role {
     private Long id;
     private String name;
 

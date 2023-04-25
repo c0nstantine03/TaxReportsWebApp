@@ -4,7 +4,7 @@ import db.entity.Person;
 
 import java.util.List;
 
-public interface PersonDAO extends GenericDAO<Person> {
+public interface PersonDao extends GenericDao<Person> {
 
     List<Person> getAll();
 }

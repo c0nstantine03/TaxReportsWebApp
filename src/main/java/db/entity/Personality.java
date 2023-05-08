@@ -2,27 +2,27 @@ package db.entity;
 
 import java.util.Objects;
 
-public class Residency implements Cloneable {
+public class Personality implements Cloneable {
     private Long id;
     private String code;
     private String name;
 
-    public Residency() {}
+    public Personality() {}
 
-    public Residency(Long id) {
+    public Personality(Long id) {
         this.id = id;
     }
 
-    public Residency(Long id, String code, String name) {
+    public Personality(Long id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
     }
 
-    public Residency(Residency residency) {
-        this.id = residency.id;
-        this.code = residency.code;
-        this.name = residency.name;
+    public Personality(Personality personality) {
+        this.id = personality.id;
+        this.code = personality.code;
+        this.name = personality.name;
     }
 
     public Long getId() {
@@ -53,8 +53,8 @@ public class Residency implements Cloneable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Residency residency = (Residency) obj;
-        return id.equals(residency.id) && name.equals(residency.name);
+        Personality personality = (Personality) obj;
+        return id.equals(personality.id) && name.equals(personality.name);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Residency implements Cloneable {
 
     @Override
     public String toString() {
-        return "Residency{" +
+        return "Personality{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
                 ", name='" + name + '\'' +

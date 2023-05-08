@@ -1,9 +1,9 @@
 package db.dao;
 
-public interface GenericDao<T> {
+public interface DAO<T> {
 
 	//create
-	void create(T entity);
+	void insert(T entity);
 
 	//read
 	T findById(Long id);

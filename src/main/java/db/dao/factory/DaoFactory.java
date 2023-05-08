@@ -1,8 +1,9 @@
-package db.dao;
+package db.dao.factory;
 
-import db.dao.impl.JdbcDaoFactory;
+import db.dao.PersonalityDao;
+import db.dao.RoleDao;
+import db.dao.impl.conn.DataSource;
 
-import java.sql.Connection;
 
 public abstract class DaoFactory {
 	private static volatile DaoFactory instance;
@@ -21,7 +22,7 @@ public abstract class DaoFactory {
 		return localInstance;
 	}
 
-	public abstract PersonDao createPersonDao(Connection connection);
+	public abstract PersonalityDao createPersonDao();
 
-	public abstract RoleDao createRoleDao(Connection connection);
+	public abstract RoleDao createRoleDao();
 }

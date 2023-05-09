@@ -20,7 +20,7 @@ public class StatusDaoImpl implements StatusDao {
 	@Override
 	public void insert(@NotNull Status entity) throws SQLException {
 		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES (%s, %s, %d)".
-				formatted(tableName, entity.getCode(), entity.getName(), entity.isClosed() ? 1 : 0);
+				formatted(tableName, entity.getCode(), entity.getName(), entity.getClosed() ? 1 : 0);
 
 		DaoImplGeneral.update(connection, SQL_INSERT);
 	}
@@ -46,7 +46,7 @@ public class StatusDaoImpl implements StatusDao {
 	public void update(@NotNull Status entity) throws SQLException {
 		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s, closed = %d WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(),
-						entity.isClosed() ? 1 : 0, entity.getId());
+						entity.getClosed() ? 1 : 0, entity.getId());
 
 		DaoImplGeneral.update(connection, SQL_UPDATE);
 	}

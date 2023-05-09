@@ -5,31 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97e4a78d-b824-4a78-84cf-4e91171f415a" name="Changes" comment="Realized DataSource, DAOFactory and some DAO/entities (not all).">
-      <change afterPath="$PROJECT_DIR$/CreationScript.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/ConfigurationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/NextStatusDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/ReportDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/ReportHistoryDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/StatusDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/UserDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/NextStatusDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ResidencyDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CreationScript.sql" beforeDir="false" afterPath="$PROJECT_DIR$/CreationScript.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/Domain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/Domain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/GenericDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/DAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/PersonDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/RoleDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/RoleDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/ConfigurationManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/DataSource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/JdbcDaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mysql/PersonDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mysql/RoleDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/basicLogic/DBUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/basicLogic/DBUtilAnotherOne.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Residency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Residency.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/database.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +47,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -83,29 +91,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kostya/IdeaProjects/TaxReportsWebApp&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "true",
+    "Repository.Attach.Sources": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/Kostya/IdeaProjects/TaxReportsWebApp",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.language"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;module&quot;,
-      &quot;directory&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "module",
+      "directory"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="db.dao.impl" />
@@ -147,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682431197547</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Realized DataSource, DAOFactory and some DAO/entities (not all).">
+      <created>1683567304467</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1683567304467</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

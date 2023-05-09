@@ -2,7 +2,6 @@ package db;
 
 import db.dao.*;
 import db.dao.factory.DaoFactory;
-import db.dao.impl.conn.DataSource;
 import db.entity.Personality;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public class Domain {
 
         DaoFactory daoFactory = DaoFactory.getInstance();
 
-        PersonalityDao personalityDao = daoFactory.createPersonDao();
+        PersonalityDao personalityDao = daoFactory.createPersonalityDao();
         List<Personality> personalityList = personalityDao.getAll();
         if (personalityList.isEmpty()) {
             System.out.println("There isn't any personalities.");

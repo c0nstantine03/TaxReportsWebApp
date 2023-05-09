@@ -8,6 +8,11 @@ public class NextStatus implements Cloneable {
 
 	public NextStatus() {}
 
+	public NextStatus(Long currentId, Long nextId) {
+		this.currentStatus = new Status(currentId);
+		this.nextStatus = new Status(nextId);
+	}
+
 	public NextStatus(Status currentStatus, Status nextStatus) {
 		this.currentStatus = currentStatus;
 		this.nextStatus = nextStatus;

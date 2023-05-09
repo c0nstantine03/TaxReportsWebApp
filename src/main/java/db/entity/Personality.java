@@ -19,12 +19,6 @@ public class Personality implements Cloneable {
         this.name = name;
     }
 
-    public Personality(Personality personality) {
-        this.id = personality.id;
-        this.code = personality.code;
-        this.name = personality.name;
-    }
-
     public Long getId() {
         return id;
     }

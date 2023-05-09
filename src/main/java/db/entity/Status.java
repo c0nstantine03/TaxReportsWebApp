@@ -10,6 +10,10 @@ public class Status implements Cloneable {
 
 	public Status() {}
 
+	public Status(Long id) {
+		this.id = id;
+	}
+
 	public Status(Long id, String code, String name, Boolean closed) {
 		this.id = id;
 		this.code = code;

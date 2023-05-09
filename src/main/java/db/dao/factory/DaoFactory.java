@@ -1,8 +1,6 @@
 package db.dao.factory;
 
-import db.dao.PersonalityDao;
-import db.dao.RoleDao;
-import db.dao.impl.conn.DataSource;
+import db.dao.*;
 
 
 public abstract class DaoFactory {
@@ -22,7 +20,15 @@ public abstract class DaoFactory {
 		return localInstance;
 	}
 
-	public abstract PersonalityDao createPersonDao();
-
 	public abstract RoleDao createRoleDao();
+
+	public abstract ResidencyDao createResidencyDao();
+
+	public abstract PersonalityDao createPersonalityDao();
+
+	public abstract UserDao createUserDao();
+
+	public abstract StatusDao createStatusDao();
+
+	public abstract NextStatusDao createNextStatusDao();
 }

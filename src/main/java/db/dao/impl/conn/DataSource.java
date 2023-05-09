@@ -28,7 +28,7 @@ public class DataSource {
 			// Create new instance of general class
 			dataSource = new HikariDataSource(config);
 
-			System.out.println("DataSource instance created successfully.");
+			//System.out.println("DataSource instance created successfully.");
 		} catch (Throwable ex) {
 			// If we have some troubles with either configuration
 			// or reading properties or access to database or sth else

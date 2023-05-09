@@ -1,23 +1,23 @@
 package db.dao.impl.jdbc;
 
-import db.dao.RoleDao;
-import db.entity.Role;
+import db.dao.ResidencyDao;
+import db.entity.Residency;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleDaoImpl implements RoleDao {
+public class ResidencyDaoImpl implements ResidencyDao {
 	private final Connection connection;
-	private final String tableName = "role_list";
+	private final String tableName = "residency_list";
 
-	public RoleDaoImpl(Connection connection) {
+	public ResidencyDaoImpl(Connection connection) {
 		this.connection = connection;
 	}
 
 	@Override
-	public void insert(@NotNull Role entity) {
+	public void insert(@NotNull Residency entity) {
 		String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
 				formatted(tableName, entity.getCode(), entity.getName());
 
@@ -47,14 +47,14 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public Role findById(Long id) {
-		Role entity = null;
+	public Residency findById(Long id) {
+		Residency entity = null;
 		String SQL_SELECT_BY_ID = "SELECT id, code, name FROM %s WHERE id = %d".formatted(tableName, id);
 
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Role(
+					entity = new Residency(
 							resultSet.getLong("id"),
 							resultSet.getString("code"),
 							resultSet.getString("name")
@@ -68,7 +68,7 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void update(@NotNull Role entity) {
+	public void update(@NotNull Residency entity) {
 		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
@@ -80,7 +80,7 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void delete(@NotNull Role entity) {
+	public void delete(@NotNull Residency entity) {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
 		try (Statement statement = connection.createStatement()) {
@@ -91,14 +91,14 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public List<Role> getAll() {
-		List<Role> entityList = new ArrayList<>();
+	public List<Residency> getAll() {
+		List<Residency> entityList = new ArrayList<>();
 		String SQL_SELECT_ALL= "SELECT id, code, name FROM %s".formatted(tableName);
 
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Role entity = new Role(
+					Residency entity = new Residency(
 							resultSet.getLong("id"),
 							resultSet.getString("code"),
 							resultSet.getString("name")
@@ -113,14 +113,14 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public Role findByCode(String code) {
-		Role entity = null;
+	public Residency findByCode(String code) {
+		Residency entity = null;
 		String SQL_SELECT_BY_CODE = "SELECT id, code, name FROM %s WHERE code = %s".formatted(tableName, code);
 
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Role(
+					entity = new Residency(
 							resultSet.getLong("id"),
 							resultSet.getString("code"),
 							resultSet.getString("name")

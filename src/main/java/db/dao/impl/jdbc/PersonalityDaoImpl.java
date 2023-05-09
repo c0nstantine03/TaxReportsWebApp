@@ -18,57 +18,47 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
     @Override
     public void insert(@NotNull Personality entity) {
+        String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
+                formatted(tableName, entity.getCode(), entity.getName());
 
-        String SQL_INSERT_PERSON = "INSERT INTO " + tableName + " (code, name) VALUES (?, ?)";
+        String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s".
+                formatted(tableName, entity.getCode());
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_PERSON)) {
-
-            preparedStatement.setString(1, entity.getCode());
-            preparedStatement.setString(2, entity.getName());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public List<Personality> getAll() {
-        List<Personality> entityList = new ArrayList<>();
-
-        String SQL_SELECT_ALL_PERSON = "SELECT id, code, name FROM " + tableName;
-
-        try (Statement statement = connection.createStatement()) {
-            try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PERSON)) {
-                while (resultSet.next()) {
-                    Personality entity = new Personality(resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name"));
-                    entityList.add(entity);
+        try {
+            // insert value
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate(SQL_INSERT);
+            } catch (SQLException e) {
+                throw new SQLException("In insert statement: ", e);
+            }
+            // get auto-generic id
+            try (Statement statement = connection.createStatement()) {
+                try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
+                    if(resultSet.next()) {
+                        entity.setId(resultSet.getLong("id"));
+                    }
                 }
+            } catch (SQLException e) {
+                throw new SQLException("In select statement: ", e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return entityList;
     }
 
     @Override
     public Personality findById(Long id) {
         Personality entity = null;
+        String SQL_SELECT_BY_ID = "SELECT id, code, name FROM %s WHERE id = %d".formatted(tableName, id);
 
-        String SQL_SELECT_BY_ID_PERSON = "SELECT id, code, name FROM " + tableName + " WHERE id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_BY_ID_PERSON)) {
-
-            preparedStatement.setLong(1, id);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
                 if (resultSet.next()) {
-                    entity = new Personality(resultSet.getLong("id"),
+                    entity = new Personality(
+                            resultSet.getLong("id"),
                             resultSet.getString("code"),
-                            resultSet.getString("name"));
+                            resultSet.getString("name")
+                    );
                 }
             }
         } catch (SQLException e) {
@@ -79,16 +69,11 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
     @Override
     public void update(@NotNull Personality entity) {
+        String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
+                formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-        String SQL_UPDATE_PERSON = "UPDATE " + tableName + " SET code = ?, name = ? WHERE id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON)) {
-
-            preparedStatement.setString(1, entity.getCode());
-            preparedStatement.setString(2, entity.getName());
-            preparedStatement.setLong(3, entity.getId());
-
-            preparedStatement.executeUpdate();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(SQL_UPDATE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,16 +81,55 @@ public class PersonalityDaoImpl implements PersonalityDao {
 
     @Override
     public void delete(@NotNull Personality entity) {
+        String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-        String SQL_DELETE_PERSON = "DELETE FROM " + tableName + " WHERE id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_PERSON)) {
-
-            preparedStatement.setLong(1, entity.getId());
-
-            preparedStatement.executeUpdate();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(SQL_DELETE);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Personality> getAll() {
+        List<Personality> entityList = new ArrayList<>();
+        String SQL_SELECT_ALL= "SELECT id, code, name FROM %s".formatted(tableName);
+
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
+                while (resultSet.next()) {
+                    Personality entity = new Personality(
+                            resultSet.getLong("id"),
+                            resultSet.getString("code"),
+                            resultSet.getString("name")
+                    );
+                    entityList.add(entity);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entityList;
+    }
+
+    @Override
+    public Personality findByCode(String code) {
+        Personality entity = null;
+        String SQL_SELECT_BY_CODE = "SELECT id, code, name FROM %s WHERE code = %s".formatted(tableName, code);
+
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
+                if (resultSet.next()) {
+                    entity = new Personality(
+                            resultSet.getLong("id"),
+                            resultSet.getString("code"),
+                            resultSet.getString("name")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entity;
     }
 }

@@ -4,7 +4,7 @@ package db.entity;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class Report {
+public class Report implements Cloneable {
 	private Long id;
 	private String code;
 	private String content;
@@ -15,6 +15,10 @@ public class Report {
 	private Status status;
 
 	public Report() {}
+
+	public Report(Long id) {
+		this.id = id;
+	}
 
 	public Report(Long id, String code, String content, User author,
 				  User inspector, Timestamp supplied, Timestamp updated, Status status) {
@@ -114,9 +118,21 @@ public class Report {
 				", code='" + code + '\'' +
 				", author='" + author + '\'' +
 				", inspector='" + inspector + '\'' +
-				", supplied='" + supplied + '\'' +
-				", updated='" + updated + '\'' +
-				", status='" + status + '\'' +
+				", supplied=" + supplied +
+				", updated=" + updated +
+				", status=" + status +
 				'}';
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Object object = super.clone();
+		Report report = (Report) object;
+		report.setAuthor((User) author.clone());
+		report.setInspector((User) inspector.clone());
+		report.setSupplied((Timestamp) supplied.clone());
+		report.setUpdated((Timestamp) updated.clone());
+		report.setStatus((Status) status.clone());
+		return object;
 	}
 }

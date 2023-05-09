@@ -20,12 +20,6 @@ public class Role implements Cloneable{
         this.name = name;
     }
 
-    public Role(Role role) {
-        this.id = role.id;
-        this.code = role.code;
-        this.name = role.name;
-    }
-
     public Long getId() {
         return id;
     }

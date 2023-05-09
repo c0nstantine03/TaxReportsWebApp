@@ -19,12 +19,6 @@ public class Residency implements Cloneable {
         this.name = name;
     }
 
-    public Residency(Residency residency) {
-        this.id = residency.id;
-        this.code = residency.code;
-        this.name = residency.name;
-    }
-
     public Long getId() {
         return id;
     }

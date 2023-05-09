@@ -8,4 +8,5 @@ public interface ResidencyDao extends DAO<Residency> {
 
 	List<Residency> getAll();
 
+	Residency findByCode(String code);
 }

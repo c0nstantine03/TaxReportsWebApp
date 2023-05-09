@@ -3,7 +3,7 @@ package db.entity;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class User {
+public class User implements Cloneable {
 	private Long id;
 	private String login;
 	private String password;
@@ -18,6 +18,10 @@ public class User {
 	private Timestamp modified;
 
 	public User() {}
+
+	public User(Long id) {
+		this.id = id;
+	}
 
 	public User(Long id, String login, String password, String firstName,
 				String lastName, String mail, Role role, Residency residency,
@@ -34,21 +38,6 @@ public class User {
 		this.isEnable = isEnable;
 		this.created = created;
 		this.modified = modified;
-	}
-
-	public User(User user) {
-		this.id = user.id;
-		this.login = user.login;
-		this.password = user.password;
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.mail = user.mail;
-		this.role = new Role(user.role);
-		this.residency = new Residency(user.residency);
-		this.personality = new Personality(user.personality);
-		this.isEnable = user.isEnable;
-		this.created = (Timestamp) user.created.clone();
-		this.modified = (Timestamp) user.modified.clone();
 	}
 
 	public Long getId() {
@@ -177,13 +166,24 @@ public class User {
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", mail='" + mail + '\'' +
-				", role='" + role + '\'' +
-				", residency='" + residency + '\'' +
-				", personality='" + personality + '\'' +
+				", role=" + role +
+				", residency=" + residency +
+				", personality=" + personality +
 				", isEnable=" + isEnable +
-				", created='" + created + '\'' +
-				", modified='" + modified + '\'' +
+				", created=" + created +
+				", modified=" + modified +
 				'}';
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Object object = super.clone();
+		User user = (User) object;
+		user.setRole((Role) role.clone());
+		user.setResidency((Residency) residency.clone());
+		user.setPersonality((Personality) personality.clone());
+		user.setCreated((Timestamp) created.clone());
+		user.setModified((Timestamp) modified.clone());
+		return object;
+	}
 }

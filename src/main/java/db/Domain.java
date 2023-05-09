@@ -1,17 +1,26 @@
 package db;
 
 import db.dao.*;
-import db.dao.impl.DataSource;
-import db.entity.Person;
+import db.dao.factory.DaoFactory;
+import db.entity.Personality;
 
 import java.util.List;
 
 public class Domain {
     public static void main(String[] args) {
 
-        PersonDAO personDAO = DAOFactory.getInstance().createPersonDAO(DataSource.getConnection());
-        //List<Person> personList = personDAO.getAll();
-        //RoleDAO roleDAO = DAOFactory.getInstance().createRoleDAO(DataSource.getConnection());
+        DaoFactory daoFactory = DaoFactory.getInstance();
+
+        PersonalityDao personalityDao = daoFactory.createPersonalityDao();
+        List<Personality> personalityList = personalityDao.getAll();
+        if (personalityList.isEmpty()) {
+            System.out.println("There isn't any personalities.");
+        } else {
+            for (Personality psn : personalityList) {
+                System.out.println(psn);
+            }
+        }
+        RoleDao roleDao = daoFactory.createRoleDao();
 
     }
 }

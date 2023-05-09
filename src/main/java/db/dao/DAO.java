@@ -1,14 +1,12 @@
 package db.dao;
 
-import java.util.List;
-
-public interface GenericDAO<T> {
+public interface DAO<T> {
 
 	//create
-	void add(T entity);
+	void insert(T entity);
 
 	//read
-	T getById(Long id);
+	T findById(Long id);
 
 	//update
 	void update(T entity);

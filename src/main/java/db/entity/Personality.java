@@ -2,25 +2,43 @@ package db.entity;
 
 import java.util.Objects;
 
-public class Person implements java.io.Serializable {
+public class Personality implements Cloneable {
     private Long id;
+    private String code;
     private String name;
 
-    public Person() {}
-    public Person(Long id, String name) {
+    public Personality() {}
+
+    public Personality(Long id) {
         this.id = id;
+    }
+
+    public Personality(Long id, String code, String name) {
+        this.id = id;
+        this.code = code;
         this.name = name;
     }
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -29,20 +47,26 @@ public class Person implements java.io.Serializable {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        Person person = (Person) obj;
-        return id.equals(person.id) && name.equals(person.name);
+        Personality personality = (Personality) obj;
+        return id.equals(personality.id) && name.equals(personality.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, code, name);
     }
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "Personality{" +
                 "id=" + id +
+                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

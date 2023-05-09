@@ -1,4 +1,3 @@
 # TaxReportsWebApp
 
-![image](https://user-images.githubusercontent.com/99007479/235316285-4e3c7813-2de0-4a06-8998-0774a1efd2f3.png)
-
+![image](https://user-images.githubusercontent.com/99007479/236971172-85bcc2f3-3703-4202-96d1-b58ee5b8a1a5.png)

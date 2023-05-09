@@ -1,4 +1,4 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
 import db.entity.Status;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class StatusMapper {
 
-	public Status mapStatus(@NotNull ResultSet resultSet) throws SQLException {
+	public Status extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
 		return new Status(
 				resultSet.getLong("id"),
 				resultSet.getString("code"),

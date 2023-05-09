@@ -1,19 +1,18 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
-import db.entity.Residency;
+import db.entity.Role;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ResidencyMapper {
+public class RoleMapper {
 
-	public Residency mapResidency(@NotNull ResultSet resultSet) throws SQLException {
-		return new Residency(
+	public Role extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
+		return new Role(
 				resultSet.getLong("id"),
 				resultSet.getString("code"),
 				resultSet.getString("name")
 		);
 	}
 }
-

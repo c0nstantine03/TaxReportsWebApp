@@ -1,4 +1,4 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
 import db.entity.Personality;
 import db.entity.Residency;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class UserMapper {
 
-	public User mapUser(@NotNull ResultSet resultSet) throws SQLException {
+	public User extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
 		return new User(
 				resultSet.getLong("id"),
 				resultSet.getString("login"),

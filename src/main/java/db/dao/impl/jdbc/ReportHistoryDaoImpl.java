@@ -1,11 +1,8 @@
 package db.dao.impl.jdbc;
 
 import db.dao.ReportHistoryDao;
-import db.dao.impl.jdbc.mapper.ReportHistoryMapper;
-import db.entity.Report;
+import db.dao.impl.mapper.ReportHistoryMapper;
 import db.entity.ReportHistory;
-import db.entity.Status;
-import db.entity.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -24,36 +21,14 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 	}
 
 	@Override
-	public void insert(@NotNull ReportHistory entity) {
+	public void insert(@NotNull ReportHistory entity) throws SQLException {
 		String SQL_INSERT = """
 				INSERT INTO %s (code, content, author_id, inspector_id, status_id, comment)
 				VALUES (%s, %s, %d, %d, %d, %s)""".
 				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
 				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment());
 
-		String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s ORDER BY id DESC limit 1".
-				formatted(tableName, entity.getCode());
-
-		try {
-			// insert value
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(SQL_INSERT);
-			} catch (SQLException e) {
-				throw new SQLException("In insert statement: ", e);
-			}
-			// get auto-generic id
-			try (Statement statement = connection.createStatement()) {
-				try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
-					if(resultSet.next()) {
-						entity.setId(resultSet.getLong("id"));
-					}
-				}
-			} catch (SQLException e) {
-				throw new SQLException("In select statement: ", e);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -66,7 +41,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new ReportHistoryMapper().mapReportHistory(resultSet);
+					entity = new ReportHistoryMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -76,7 +51,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 	}
 
 	@Override
-	public void update(@NotNull ReportHistory entity) {
+	public void update(@NotNull ReportHistory entity) throws SQLException {
 		String SQL_UPDATE = """
 				UPDATE %s SET code = %s, content = %s, author_id = %d, \
 				inspector_id = %d, updated = NOW(), status_id = %d, comment = %s
@@ -84,22 +59,14 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
 				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment(), entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_UPDATE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull ReportHistory entity) {
+	public void delete(@NotNull ReportHistory entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -112,7 +79,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					ReportHistory entity = new ReportHistoryMapper().mapReportHistory(resultSet);
+					ReportHistory entity = new ReportHistoryMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -132,7 +99,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				while (resultSet.next()) {
-					ReportHistory entity = new ReportHistoryMapper().mapReportHistory(resultSet);
+					ReportHistory entity = new ReportHistoryMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -152,7 +119,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_AUTHOR_ID)) {
 				while (resultSet.next()) {
-					ReportHistory entity = new ReportHistoryMapper().mapReportHistory(resultSet);
+					ReportHistory entity = new ReportHistoryMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -172,7 +139,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_INSPECTOR_ID)) {
 				while (resultSet.next()) {
-					ReportHistory entity = new ReportHistoryMapper().mapReportHistory(resultSet);
+					ReportHistory entity = new ReportHistoryMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}

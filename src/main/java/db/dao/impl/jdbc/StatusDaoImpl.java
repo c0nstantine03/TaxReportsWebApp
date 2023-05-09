@@ -1,7 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.StatusDao;
-import db.dao.impl.jdbc.mapper.StatusMapper;
+import db.dao.impl.mapper.StatusMapper;
 import db.entity.Status;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,33 +18,11 @@ public class StatusDaoImpl implements StatusDao {
 	}
 
 	@Override
-	public void insert(@NotNull Status entity) {
+	public void insert(@NotNull Status entity) throws SQLException {
 		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES (%s, %s, %d)".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.isClosed() ? 1 : 0);
 
-		String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s".
-				formatted(tableName, entity.getCode());
-
-		try {
-			// insert value
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(SQL_INSERT);
-			} catch (SQLException e) {
-				throw new SQLException("In insert statement: ", e);
-			}
-			// get auto-generic id
-			try (Statement statement = connection.createStatement()) {
-				try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
-					if(resultSet.next()) {
-						entity.setId(resultSet.getLong("id"));
-					}
-				}
-			} catch (SQLException e) {
-				throw new SQLException("In select statement: ", e);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -55,7 +33,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new StatusMapper().mapStatus(resultSet);
+					entity = new StatusMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -65,27 +43,19 @@ public class StatusDaoImpl implements StatusDao {
 	}
 
 	@Override
-	public void update(@NotNull Status entity) {
+	public void update(@NotNull Status entity) throws SQLException {
 		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s, closed = %d WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(),
 						entity.isClosed() ? 1 : 0, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_UPDATE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull Status entity) {
+	public void delete(@NotNull Status entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		DaoImplGeneral.update(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -96,7 +66,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Status entity = new StatusMapper().mapStatus(resultSet);
+					Status entity = new StatusMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -114,7 +84,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new StatusMapper().mapStatus(resultSet);
+					entity = new StatusMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {

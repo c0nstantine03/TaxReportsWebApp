@@ -3,19 +3,34 @@ package db.entity;
 import java.util.Objects;
 
 public class NextStatus implements Cloneable {
+	private Long id;
 	private Status currentStatus;
 	private Status nextStatus;
 
 	public NextStatus() {}
 
-	public NextStatus(Long currentId, Long nextId) {
+	public NextStatus(Long id) {
+		this.id = id;
+	}
+
+	public NextStatus(Long id, Long currentId, Long nextId) {
+		this.id = id;
 		this.currentStatus = new Status(currentId);
 		this.nextStatus = new Status(nextId);
 	}
 
-	public NextStatus(Status currentStatus, Status nextStatus) {
+	public NextStatus(Long id, Status currentStatus, Status nextStatus) {
+		this.id = id;
 		this.currentStatus = currentStatus;
 		this.nextStatus = nextStatus;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Status getCurrentStatus() {
@@ -39,20 +54,22 @@ public class NextStatus implements Cloneable {
 		if (this == obj) return true;
 		if (obj == null || getClass() != obj.getClass()) return false;
 		NextStatus status = (NextStatus) obj;
-		return currentStatus.equals(status.currentStatus) && nextStatus.equals(status.nextStatus);
+		return id.equals(status.id) && currentStatus.equals(status.currentStatus)
+			   && nextStatus.equals(status.nextStatus);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(currentStatus, nextStatus);
+		return Objects.hash(id, currentStatus, nextStatus);
 	}
 
 	@Override
 	public String toString() {
 		return "Personality{" +
-				"currentStatus=" + currentStatus +
-				", nextStatus='" + nextStatus +
-				'}';
+			   "id=" + id +
+			   "currentStatus=" + currentStatus +
+			   ", nextStatus=" + nextStatus +
+			   '}';
 	}
 
 	@Override

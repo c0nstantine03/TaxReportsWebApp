@@ -1,4 +1,4 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
 import db.entity.Report;
 import db.entity.Status;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class ReportMapper {
 
-	public Report mapReport(@NotNull ResultSet resultSet) throws SQLException {
+	public Report extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
 		return new Report(
 				resultSet.getLong("id"),
 				resultSet.getString("code"),

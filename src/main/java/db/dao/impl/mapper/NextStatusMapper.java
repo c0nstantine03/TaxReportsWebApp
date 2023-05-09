@@ -1,4 +1,4 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
 import db.entity.NextStatus;
 import db.entity.Status;
@@ -9,8 +9,9 @@ import java.sql.SQLException;
 
 public class NextStatusMapper {
 
-	public NextStatus mapNextStatus(@NotNull ResultSet resultSet) throws SQLException {
+	public NextStatus extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
 		return new NextStatus(
+				resultSet.getLong("id"),
 				new Status(resultSet.getLong("status_id")),
 				new Status(resultSet.getLong("next_status_id"))
 		);

@@ -1,4 +1,4 @@
-package db.dao.impl.jdbc.mapper;
+package db.dao.impl.mapper;
 
 import db.entity.Personality;
 import org.jetbrains.annotations.NotNull;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class PersonalityMapper {
 
-	public Personality mapPersonality(@NotNull ResultSet resultSet) throws SQLException {
+	public Personality extractFromResultSet(@NotNull ResultSet resultSet) throws SQLException {
 		return new Personality(
 				resultSet.getLong("id"),
 				resultSet.getString("code"),

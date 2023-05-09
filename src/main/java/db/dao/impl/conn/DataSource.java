@@ -52,12 +52,7 @@ public class DataSource {
 		return localInstance;
 	}
 
-	public Connection getConnection() {
-		try {
-			// Get connection from pool
-			return dataSource.getConnection();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
+	public Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
 	}
 }

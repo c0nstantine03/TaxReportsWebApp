@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.RoleDao;
+import db.dao.impl.jdbc.mapper.RoleMapper;
 import db.entity.Role;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,11 +55,7 @@ public class RoleDaoImpl implements RoleDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Role(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new RoleMapper().mapRole(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -98,11 +95,7 @@ public class RoleDaoImpl implements RoleDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Role entity = new Role(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					Role entity = new RoleMapper().mapRole(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -120,11 +113,7 @@ public class RoleDaoImpl implements RoleDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Role(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new RoleMapper().mapRole(resultSet);
 				}
 			}
 		} catch (SQLException e) {

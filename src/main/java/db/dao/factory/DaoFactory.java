@@ -31,4 +31,8 @@ public abstract class DaoFactory {
 	public abstract StatusDao createStatusDao();
 
 	public abstract NextStatusDao createNextStatusDao();
+
+	public abstract ReportDao createReportDao();
+
+	public abstract ReportHistoryDao createReportHistoryDao();
 }

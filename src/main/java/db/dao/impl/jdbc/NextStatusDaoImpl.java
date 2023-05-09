@@ -2,6 +2,7 @@ package db.dao.impl.jdbc;
 
 import db.dao.NextStatusDao;
 import db.dao.factory.DaoFactory;
+import db.dao.impl.jdbc.mapper.NextStatusMapper;
 import db.entity.NextStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,10 +38,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					entity = new NextStatusMapper().mapNextStatus(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -74,10 +72,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					NextStatus entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					NextStatus entity = new NextStatusMapper().mapNextStatus(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -95,10 +90,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					NextStatus entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					NextStatus entity = new NextStatusMapper().mapNextStatus(resultSet);
 					entityList.add(entity);
 				}
 			}

@@ -40,4 +40,14 @@ public class JdbcDaoFactory extends DaoFactory {
 	public NextStatusDao createNextStatusDao() {
 		return new NextStatusDaoImpl(dataSource.getConnection());
 	}
+
+	@Override
+	public ReportDao createReportDao() {
+		return new ReportDaoImpl(dataSource.getConnection());
+	}
+
+	@Override
+	public ReportHistoryDao createReportHistoryDao() {
+		return new ReportHistoryDaoImpl(dataSource.getConnection());
+	}
 }

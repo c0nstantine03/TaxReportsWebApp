@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.StatusDao;
+import db.dao.impl.jdbc.mapper.StatusMapper;
 import db.entity.Status;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,12 +55,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Status(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name"),
-							resultSet.getBoolean("closed")
-					);
+					entity = new StatusMapper().mapStatus(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -100,12 +96,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Status entity = new Status(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name"),
-							resultSet.getBoolean("closed")
-					);
+					Status entity = new StatusMapper().mapStatus(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -123,12 +114,7 @@ public class StatusDaoImpl implements StatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Status(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name"),
-							resultSet.getBoolean("closed")
-					);
+					entity = new StatusMapper().mapStatus(resultSet);
 				}
 			}
 		} catch (SQLException e) {

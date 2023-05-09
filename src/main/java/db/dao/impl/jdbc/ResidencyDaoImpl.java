@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.ResidencyDao;
+import db.dao.impl.jdbc.mapper.ResidencyMapper;
 import db.entity.Residency;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,11 +55,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new ResidencyMapper().mapResidency(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -98,11 +95,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Residency entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					Residency entity = new ResidencyMapper().mapResidency(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -120,11 +113,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new ResidencyMapper().mapResidency(resultSet);
 				}
 			}
 		} catch (SQLException e) {

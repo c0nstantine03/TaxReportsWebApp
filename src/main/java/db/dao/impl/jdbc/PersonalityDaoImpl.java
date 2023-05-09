@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.PersonalityDao;
+import db.dao.impl.jdbc.mapper.PersonalityMapper;
 import db.entity.Personality;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,11 +55,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
                 if (resultSet.next()) {
-                    entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    entity = new PersonalityMapper().mapPersonality(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -98,11 +95,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
                 while (resultSet.next()) {
-                    Personality entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    Personality entity = new PersonalityMapper().mapPersonality(resultSet);
                     entityList.add(entity);
                 }
             }
@@ -120,11 +113,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
                 if (resultSet.next()) {
-                    entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    entity = new PersonalityMapper().mapPersonality(resultSet);
                 }
             }
         } catch (SQLException e) {

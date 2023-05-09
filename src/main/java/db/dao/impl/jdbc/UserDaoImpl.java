@@ -2,6 +2,10 @@ package db.dao.impl.jdbc;
 
 import db.dao.UserDao;
 import db.dao.factory.DaoFactory;
+import db.dao.impl.jdbc.mapper.UserMapper;
+import db.entity.Personality;
+import db.entity.Residency;
+import db.entity.Role;
 import db.entity.User;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,20 +65,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().mapUser(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -121,20 +112,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					User entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					User entity = new UserMapper().mapUser(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -155,20 +133,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_LOGIN)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().mapUser(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -188,20 +153,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_LOGIN)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().mapUser(resultSet);
 				}
 			}
 		} catch (SQLException e) {

@@ -28,7 +28,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
 				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment());
 
-		DaoImplGeneral.update(connection, SQL_INSERT);
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -59,14 +59,14 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao {
 				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
 				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment(), entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_UPDATE);
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
 	public void delete(@NotNull ReportHistory entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_DELETE);
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class RoleDaoImpl implements RoleDao {
 		String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
 				formatted(tableName, entity.getCode(), entity.getName());
 
-		DaoImplGeneral.update(connection, SQL_INSERT);
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -47,14 +47,14 @@ public class RoleDaoImpl implements RoleDao {
 		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_UPDATE);
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
 	public void delete(@NotNull Role entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_DELETE);
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override

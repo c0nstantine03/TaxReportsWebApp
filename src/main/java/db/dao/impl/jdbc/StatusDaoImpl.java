@@ -22,7 +22,7 @@ public class StatusDaoImpl implements StatusDao {
 		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES (%s, %s, %d)".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.getClosed() ? 1 : 0);
 
-		DaoImplGeneral.update(connection, SQL_INSERT);
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -48,14 +48,14 @@ public class StatusDaoImpl implements StatusDao {
 				formatted(tableName, entity.getCode(), entity.getName(),
 						entity.getClosed() ? 1 : 0, entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_UPDATE);
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
 	public void delete(@NotNull Status entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_DELETE);
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override

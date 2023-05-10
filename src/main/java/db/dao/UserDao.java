@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface UserDao extends DAO<User> {
 
-	User findById(Long id);
-
 	List<User> getAll();
 
 	User findByLogin(String login);

@@ -22,7 +22,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		String SQL_INSERT = "INSERT INTO %s (status_id, next_status_id) VALUES (%d, %d)".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
 
-		DaoImplGeneral.update(connection, SQL_INSERT);
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		String SQL_UPDATE = "UPDATE %s SET status_id = %d, next_status_id = %d WHERE id = %d".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId(), entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_UPDATE);
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		String SQL_DELETE = "DELETE FROM %s WHERE status_id = %d AND next_status_id = %d".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
 
-		DaoImplGeneral.update(connection, SQL_DELETE);
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override

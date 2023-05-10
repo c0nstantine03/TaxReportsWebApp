@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
 				formatted(tableName, entity.getLogin(), entity.getPassword(), entity.getFirstName(), entity.getLastName(),
 				entity.getMail(), entity.getRole().getId(), entity.getResidency().getId(), entity.getPersonality().getId());
 
-		DaoImplGeneral.update(connection, SQL_INSERT);
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -58,14 +58,14 @@ public class UserDaoImpl implements UserDao {
 				entity.getFirstName(), entity.getLastName(), entity.getMail(), entity.getRole().getId(),
 				entity.getResidency().getId(), entity.getPersonality().getId(), entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_UPDATE);
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
 	public void delete(@NotNull User entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		DaoImplGeneral.update(connection, SQL_DELETE);
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -133,6 +133,6 @@ public class UserDaoImpl implements UserDao {
 		String SQL_SET_ENABLE = "UPDATE %s SET is_enable = %d WHERE login = %s".
 				formatted(tableName, enable ? 1 : 0, login);
 
-		DaoImplGeneral.update(connection, SQL_SET_ENABLE);
+		statementUpdate(connection, SQL_SET_ENABLE);
 	}
 }

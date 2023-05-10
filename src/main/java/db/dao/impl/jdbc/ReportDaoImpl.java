@@ -23,9 +23,10 @@ public class ReportDaoImpl implements ReportDao {
 	@Override
 	public void insert(@NotNull Report entity) throws SQLException {
 		String SQL_INSERT = """
-				INSERT INTO %s (code, content, author_id, inspector_id, status_id)
-				VALUES (%s, %s, %d, %d, %d)""".formatted(tableName, entity.getCode(), entity.getContent(),
-				entity.getAuthor().getId(), entity.getInspector().getId(), entity.getStatus().getId());
+				INSERT INTO %s (code, content, author_id, inspector_id, status_id, comment)
+				VALUES (%s, %s, %d, %d, %d, %s)""".
+				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
+						entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment());
 
 		statementUpdate(connection, SQL_INSERT);
 	}
@@ -34,7 +35,7 @@ public class ReportDaoImpl implements ReportDao {
 	public Report findById(Long id) {
 		Report entity = null;
 		String SQL_SELECT_BY_ID = """
-				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id
+				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE id = %d""".formatted(tableName, id);
 
 		try (Statement statement = connection.createStatement()) {
@@ -52,11 +53,11 @@ public class ReportDaoImpl implements ReportDao {
 	@Override
 	public void update(@NotNull Report entity) throws SQLException {
 		String SQL_UPDATE = """
-				UPDATE %s SET code = %s, content = %s, author_id = %d, \
-				inspector_id = %d, updated = NOW(), status_id = %d
-				WHERE id = %d""".formatted(tableName, entity.getCode(),
-				entity.getContent(), entity.getAuthor().getId(),
-				entity.getInspector().getId(), entity.getStatus().getId(), entity.getId());
+				UPDATE %s SET code = %s, content = %s, author_id = %d,
+				inspector_id = %d, updated = NOW(), status_id = %d, comment = %s
+				WHERE id = %d""".
+				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
+				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment(), entity.getId());
 
 		statementUpdate(connection, SQL_UPDATE);
 	}
@@ -70,11 +71,11 @@ public class ReportDaoImpl implements ReportDao {
 
 	@Override
 	public List<Report> getAll() {
-		List<Report> entityList = new ArrayList<>();
 		String SQL_SELECT_ALL = """
-				SELECT id, code, content, author_id, inspector_id, \
-				supplied, updated, status_id FROM %s""".formatted(tableName);
+				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
+				FROM %s""".formatted(tableName);
 
+		List<Report> entityList = new ArrayList<>();
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
@@ -92,7 +93,7 @@ public class ReportDaoImpl implements ReportDao {
 	public Report findByCode(String code) {
 		Report entity = null;
 		String SQL_SELECT_BY_CODE = """
-				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id
+				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE code = %s""".formatted(tableName, code);
 
 		try (Statement statement = connection.createStatement()) {
@@ -111,7 +112,7 @@ public class ReportDaoImpl implements ReportDao {
 	public List<Report> findForAuthor(Long id) {
 		List<Report> entityList = new ArrayList<>();
 		String SQL_SELECT_BY_AUTHOR_ID = """
-				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id
+				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE author_id = %d""".formatted(tableName, id);
 
 		try (Statement statement = connection.createStatement()) {
@@ -131,7 +132,7 @@ public class ReportDaoImpl implements ReportDao {
 	public List<Report> findForInspector(Long id) {
 		List<Report> entityList = new ArrayList<>();
 		String SQL_SELECT_BY_INSPECTOR_ID = """
-				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id
+				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE inspector_id = %d""".formatted(tableName, id);
 
 		try (Statement statement = connection.createStatement()) {

@@ -19,6 +19,7 @@ public class Report implements Cloneable {
 	private Timestamp supplied;
 	private Timestamp updated;
 	private Status status;
+	private String comment;
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {

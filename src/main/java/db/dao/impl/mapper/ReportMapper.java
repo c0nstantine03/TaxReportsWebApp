@@ -19,7 +19,8 @@ public class ReportMapper {
 				new User(resultSet.getLong("inspector_id")),
 				resultSet.getTimestamp("supplied"),
 				resultSet.getTimestamp("updated"),
-				new Status(resultSet.getLong("status_id"))
+				new Status(resultSet.getLong("status_id")),
+				resultSet.getString("comment")
 		);
 	}
 }

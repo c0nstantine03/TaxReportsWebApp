@@ -1,7 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.UserDao;
-import db.dao.factory.DaoFactory;
+import db.dao.impl.mapper.*;
 import db.entity.User;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,63 +18,28 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void insert(@NotNull User entity) {
+	public void insert(@NotNull User entity) throws SQLException {
 		String SQL_INSERT = """
 				INSERT INTO %s (login, password, first_name, last_name, mail, role_id, residency_id, person_id)
 				VALUES (%s, %s, %s, %s, %s, %d, %d, %d)""".
 				formatted(tableName, entity.getLogin(), entity.getPassword(), entity.getFirstName(), entity.getLastName(),
 				entity.getMail(), entity.getRole().getId(), entity.getResidency().getId(), entity.getPersonality().getId());
 
-		String SQL_SELECT_ID_BY_LOGIN = "SELECT id FROM %s WHERE login = %s".
-				formatted(tableName, entity.getLogin());
-
-		try {
-			// insert value
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(SQL_INSERT);
-			} catch (SQLException e) {
-				throw new SQLException("In insert statement: ", e);
-			}
-			// get auto-generic id
-			try (Statement statement = connection.createStatement()) {
-				try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_LOGIN)) {
-					if(resultSet.next()) {
-						entity.setId(resultSet.getLong("id"));
-					}
-				}
-			} catch (SQLException e) {
-				throw new SQLException("In select statement: ", e);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
 	public User findById(Long id) {
-		User entity = null;
 		String SQL_SELECT_BY_ID = """
 				SELECT id, login, password, first_name, last_name, mail, role_id, \
 				residency_id, person_id, is_enable, created, modified
 				FROM %s WHERE id = %d""".formatted(tableName, id);
 
+		User entity = null;
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -84,7 +49,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void update(@NotNull User entity) {
+	public void update(@NotNull User entity) throws SQLException {
 		String SQL_UPDATE = """
 		UPDATE %s SET login = %s, password = %s, first_name = %s, last_name = %s, mail = %s, \
 		role_id = %d, residency_id = %d, person_id = %d, modified = NOW()
@@ -93,22 +58,14 @@ public class UserDaoImpl implements UserDao {
 				entity.getFirstName(), entity.getLastName(), entity.getMail(), entity.getRole().getId(),
 				entity.getResidency().getId(), entity.getPersonality().getId(), entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_UPDATE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull User entity) {
+	public void delete(@NotNull User entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -121,20 +78,7 @@ public class UserDaoImpl implements UserDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					User entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					User entity = new UserMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -146,29 +90,16 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User findByLogin(String login) {
-		User entity = null;
 		String SQL_SELECT_BY_LOGIN = """
 				SELECT id, login, password, first_name, last_name, mail, role_id, \
 				residency_id, person_id, is_enable, created, modified
 				FROM %s WHERE login = %s""".formatted(tableName, login);
 
+		User entity = null;
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_LOGIN)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -179,29 +110,16 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User findByLoginAndPassword(String login, String password) {
-		User entity = null;
-		String SQL_SELECT_BY_LOGIN = """
+		String SQL_SELECT_BY_LOGIN_AND_PASS = """
 				SELECT id, login, password, first_name, last_name, mail, role_id, \
 				residency_id, person_id, is_enable, created, modified
 				FROM %s WHERE login = %s AND password = %s""".formatted(tableName, login, password);
 
+		User entity = null;
 		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_LOGIN)) {
+			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_LOGIN_AND_PASS)) {
 				if (resultSet.next()) {
-					entity = new User(
-							resultSet.getLong("id"),
-							resultSet.getString("login"),
-							resultSet.getString("password"),
-							resultSet.getString("first_name"),
-							resultSet.getString("last_name"),
-							resultSet.getString("mail"),
-							DaoFactory.getInstance().createRoleDao().findById(resultSet.getLong("role_id")),
-							DaoFactory.getInstance().createResidencyDao().findById(resultSet.getLong("residency_id")),
-							DaoFactory.getInstance().createPersonalityDao().findById(resultSet.getLong("person_id")),
-							resultSet.getBoolean("is_enable"),
-							resultSet.getTimestamp("created"),
-							resultSet.getTimestamp("modified")
-					);
+					entity = new UserMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -211,14 +129,10 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void setEnable(Long id, Boolean enable) {
-		String SQL_SET_ENABLE = "UPDATE %s SET is_enable = %d WHERE id = %d".
-				formatted(tableName, enable ? 1 : 0, id);
+	public void setEnable(String login, Boolean enable) throws SQLException {
+		String SQL_SET_ENABLE = "UPDATE %s SET is_enable = %d WHERE login = %s".
+				formatted(tableName, enable ? 1 : 0, login);
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_SET_ENABLE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_SET_ENABLE);
 	}
 }

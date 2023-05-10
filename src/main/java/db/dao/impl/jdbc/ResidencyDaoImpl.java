@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.ResidencyDao;
+import db.dao.impl.mapper.ResidencyMapper;
 import db.entity.Residency;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,33 +18,11 @@ public class ResidencyDaoImpl implements ResidencyDao {
 	}
 
 	@Override
-	public void insert(@NotNull Residency entity) {
+	public void insert(@NotNull Residency entity) throws SQLException {
 		String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
 				formatted(tableName, entity.getCode(), entity.getName());
 
-		String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s".
-				formatted(tableName, entity.getCode());
-
-		try {
-			// insert value
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(SQL_INSERT);
-			} catch (SQLException e) {
-				throw new SQLException("In insert statement: ", e);
-			}
-			// get auto-generic id
-			try (Statement statement = connection.createStatement()) {
-				try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
-					if(resultSet.next()) {
-						entity.setId(resultSet.getLong("id"));
-					}
-				}
-			} catch (SQLException e) {
-				throw new SQLException("In select statement: ", e);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -54,11 +33,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new ResidencyMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -68,26 +43,18 @@ public class ResidencyDaoImpl implements ResidencyDao {
 	}
 
 	@Override
-	public void update(@NotNull Residency entity) {
+	public void update(@NotNull Residency entity) throws SQLException {
 		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_UPDATE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull Residency entity) {
+	public void delete(@NotNull Residency entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -98,11 +65,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Residency entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					Residency entity = new ResidencyMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -120,11 +83,7 @@ public class ResidencyDaoImpl implements ResidencyDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Residency(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("name")
-					);
+					entity = new ResidencyMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {

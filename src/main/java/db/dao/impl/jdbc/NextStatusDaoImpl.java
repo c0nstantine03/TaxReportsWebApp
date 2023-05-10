@@ -1,7 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.NextStatusDao;
-import db.dao.factory.DaoFactory;
+import db.dao.impl.mapper.NextStatusMapper;
 import db.entity.NextStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,29 +18,22 @@ public class NextStatusDaoImpl implements NextStatusDao {
 	}
 
 	@Override
-	public void insert(@NotNull NextStatus entity) {
+	public void insert(@NotNull NextStatus entity) throws SQLException {
 		String SQL_INSERT = "INSERT INTO %s (status_id, next_status_id) VALUES (%d, %d)".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_INSERT);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
 	public NextStatus findById(Long id) {
 		NextStatus entity = null;
-		String SQL_SELECT_BY_ID = "SELECT status_id, next_status_id FROM %s WHERE status_id = %d".formatted(tableName, id);
+		String SQL_SELECT_BY_ID = "SELECT id, status_id, next_status_id FROM %s WHERE id = %d".formatted(tableName, id);
 
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					entity = new NextStatusMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -50,20 +43,19 @@ public class NextStatusDaoImpl implements NextStatusDao {
 	}
 
 	@Override
-	public void update(NextStatus entity) {
-		throw new UnsupportedOperationException("Can't define update operation in this case");
+	public void update(@NotNull NextStatus entity) throws SQLException {
+		String SQL_UPDATE = "UPDATE %s SET status_id = %d, next_status_id = %d WHERE id = %d".
+				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId(), entity.getId());
+
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull NextStatus entity) {
+	public void delete(@NotNull NextStatus entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE status_id = %d AND next_status_id = %d".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -74,10 +66,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					NextStatus entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					NextStatus entity = new NextStatusMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -95,10 +84,7 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					NextStatus entity = new NextStatus(
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("status_id")),
-							DaoFactory.getInstance().createStatusDao().findById(resultSet.getLong("next_status_id"))
-					);
+					NextStatus entity = new NextStatusMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}

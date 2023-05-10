@@ -2,11 +2,10 @@ package db.dao;
 
 import db.entity.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDao extends DAO<User> {
-
-	User findById(Long id);
 
 	List<User> getAll();
 
@@ -14,5 +13,5 @@ public interface UserDao extends DAO<User> {
 
 	User findByLoginAndPassword(String login, String password);
 
-	void setEnable(Long id, Boolean enable);
+	void setEnable(String login, Boolean enable) throws SQLException;
 }

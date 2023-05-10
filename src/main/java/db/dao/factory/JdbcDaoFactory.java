@@ -1,43 +1,51 @@
 package db.dao.factory;
 
 import db.dao.*;
-import db.dao.impl.conn.DataSource;
 import db.dao.impl.jdbc.*;
+
+import java.sql.Connection;
 
 
 public class JdbcDaoFactory extends DaoFactory {
-	private final DataSource dataSource;
 
-	JdbcDaoFactory() {
-		this.dataSource = DataSource.getInstance();
+	JdbcDaoFactory() {}
+
+	@Override
+	public RoleDao createRoleDao(Connection connection) {
+		return new RoleDaoImpl(connection);
 	}
 
 	@Override
-	public RoleDao createRoleDao() {
-		return new RoleDaoImpl(dataSource.getConnection());
+	public ResidencyDao createResidencyDao(Connection connection) {
+		return new ResidencyDaoImpl(connection);
 	}
 
 	@Override
-	public ResidencyDao createResidencyDao() {
-		return new ResidencyDaoImpl(dataSource.getConnection());
+	public PersonalityDao createPersonalityDao(Connection connection) {
+		return new PersonalityDaoImpl(connection);
 	}
 
 	@Override
-	public PersonalityDao createPersonalityDao() {
-		return new PersonalityDaoImpl(dataSource.getConnection());
+	public UserDao createUserDao(Connection connection) {
+		return new UserDaoImpl(connection);
 	}
 
 	@Override
-	public UserDao createUserDao() {
-		return new UserDaoImpl(dataSource.getConnection());
+	public StatusDao createStatusDao(Connection connection) {
+		return new StatusDaoImpl(connection);
+	}
+
+	public NextStatusDao createNextStatusDao(Connection connection) {
+		return new NextStatusDaoImpl(connection);
 	}
 
 	@Override
-	public StatusDao createStatusDao() {
-		return new StatusDaoImpl(dataSource.getConnection());
+	public ReportDao createReportDao(Connection connection) {
+		return new ReportDaoImpl(connection);
 	}
 
-	public NextStatusDao createNextStatusDao() {
-		return new NextStatusDaoImpl(dataSource.getConnection());
+	@Override
+	public ReportHistoryDao createReportHistoryDao(Connection connection) {
+		return new ReportHistoryDaoImpl(connection);
 	}
 }

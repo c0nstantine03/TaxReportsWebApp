@@ -4,40 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="97e4a78d-b824-4a78-84cf-4e91171f415a" name="Changes" comment="Realized DataSource, DAOFactory and some DAO/entities (not all).">
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/NextStatusDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/ReportDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/ReportHistoryDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/StatusDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/NextStatusDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ResidencyDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" afterDir="false" />
+    <list default="true" id="97e4a78d-b824-4a78-84cf-4e91171f415a" name="Changes" comment="Lab 1 with lombok annotation.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CreationScript.sql" beforeDir="false" afterPath="$PROJECT_DIR$/CreationScript.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/Domain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/Domain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/basicLogic/DBUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/basicLogic/DBUtilAnotherOne.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/DAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/DAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/DaoImplGeneral.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/NextStatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/NextStatusDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ResidencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ResidencyDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Residency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Residency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/database.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +35,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="lab1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,7 +61,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2OHMW8XXinpAE8aBrb3zAQ91t3Y" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -102,10 +82,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_opened_file_path": "C:/Users/Kostya/IdeaProjects/TaxReportsWebApp",
-    "project.structure.last.edited": "Libraries",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.language"
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
   },
   "keyToStringList": {
     "ChangesTree.GroupingKeys": [
@@ -162,7 +143,35 @@
       <option name="project" value="LOCAL" />
       <updated>1683567304467</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Realized DataSource, DAOFactory and entities, Dao, Dao Implementation.">
+      <created>1683595432152</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1683595432152</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Realized DataSource, DAOFactory and entities, Dao, Dao Implementation, Mappers.">
+      <created>1683630466979</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683630466979</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Realized DataSource, DAOFactory, entities, Dao Interfaces, Dao Implementations, Mappers.">
+      <created>1683667347042</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1683667347042</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Lab 1 with lombok annotation.">
+      <created>1683671619347</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1683671619347</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -179,7 +188,11 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Realized DataSource, DAOFactory and some DAO/entities (not all)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Realized DataSource, DAOFactory and some DAO/entities (not all)." />
+    <MESSAGE value="Realized DataSource, DAOFactory and entities, Dao, Dao Implementation." />
+    <MESSAGE value="Realized DataSource, DAOFactory and entities, Dao, Dao Implementation, Mappers." />
+    <MESSAGE value="Realized DataSource, DAOFactory, entities, Dao Interfaces, Dao Implementations, Mappers." />
+    <MESSAGE value="Lab 1 with lombok annotation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Lab 1 with lombok annotation." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,6 +1,7 @@
 package db.dao.impl.jdbc;
 
 import db.dao.PersonalityDao;
+import db.dao.impl.mapper.PersonalityMapper;
 import db.entity.Personality;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,33 +18,11 @@ public class PersonalityDaoImpl implements PersonalityDao {
     }
 
     @Override
-    public void insert(@NotNull Personality entity) {
+    public void insert(@NotNull Personality entity) throws SQLException {
         String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
                 formatted(tableName, entity.getCode(), entity.getName());
 
-        String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s".
-                formatted(tableName, entity.getCode());
-
-        try {
-            // insert value
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate(SQL_INSERT);
-            } catch (SQLException e) {
-                throw new SQLException("In insert statement: ", e);
-            }
-            // get auto-generic id
-            try (Statement statement = connection.createStatement()) {
-                try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
-                    if(resultSet.next()) {
-                        entity.setId(resultSet.getLong("id"));
-                    }
-                }
-            } catch (SQLException e) {
-                throw new SQLException("In select statement: ", e);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        statementUpdate(connection, SQL_INSERT);
     }
 
     @Override
@@ -54,11 +33,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
                 if (resultSet.next()) {
-                    entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    entity = new PersonalityMapper().extractFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -68,26 +43,18 @@ public class PersonalityDaoImpl implements PersonalityDao {
     }
 
     @Override
-    public void update(@NotNull Personality entity) {
+    public void update(@NotNull Personality entity) throws SQLException {
         String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
                 formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(SQL_UPDATE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        statementUpdate(connection, SQL_UPDATE);
     }
 
     @Override
-    public void delete(@NotNull Personality entity) {
+    public void delete(@NotNull Personality entity) throws SQLException {
         String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(SQL_DELETE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        statementUpdate(connection, SQL_DELETE);
     }
 
     @Override
@@ -98,11 +65,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
                 while (resultSet.next()) {
-                    Personality entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    Personality entity = new PersonalityMapper().extractFromResultSet(resultSet);
                     entityList.add(entity);
                 }
             }
@@ -120,11 +83,7 @@ public class PersonalityDaoImpl implements PersonalityDao {
         try (Statement statement = connection.createStatement()) {
             try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
                 if (resultSet.next()) {
-                    entity = new Personality(
-                            resultSet.getLong("id"),
-                            resultSet.getString("code"),
-                            resultSet.getString("name")
-                    );
+                    entity = new PersonalityMapper().extractFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {

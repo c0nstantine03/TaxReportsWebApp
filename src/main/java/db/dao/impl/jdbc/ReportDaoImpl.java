@@ -1,9 +1,8 @@
 package db.dao.impl.jdbc;
 
 import db.dao.ReportDao;
+import db.dao.impl.mapper.ReportMapper;
 import db.entity.Report;
-import db.entity.Status;
-import db.entity.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -22,35 +21,13 @@ public class ReportDaoImpl implements ReportDao {
 	}
 
 	@Override
-	public void insert(@NotNull Report entity) {
+	public void insert(@NotNull Report entity) throws SQLException {
 		String SQL_INSERT = """
 				INSERT INTO %s (code, content, author_id, inspector_id, status_id)
 				VALUES (%s, %s, %d, %d, %d)""".formatted(tableName, entity.getCode(), entity.getContent(),
 				entity.getAuthor().getId(), entity.getInspector().getId(), entity.getStatus().getId());
 
-		String SQL_SELECT_ID_BY_CODE = "SELECT id FROM %s WHERE code = %s".
-				formatted(tableName, entity.getCode());
-
-		try {
-			// insert value
-			try (Statement statement = connection.createStatement()) {
-				statement.executeUpdate(SQL_INSERT);
-			} catch (SQLException e) {
-				throw new SQLException("In insert statement: ", e);
-			}
-			// get auto-generic id
-			try (Statement statement = connection.createStatement()) {
-				try(ResultSet resultSet = statement.executeQuery(SQL_SELECT_ID_BY_CODE)) {
-					if(resultSet.next()) {
-						entity.setId(resultSet.getLong("id"));
-					}
-				}
-			} catch (SQLException e) {
-				throw new SQLException("In select statement: ", e);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_INSERT);
 	}
 
 	@Override
@@ -63,16 +40,7 @@ public class ReportDaoImpl implements ReportDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
 				if (resultSet.next()) {
-					entity = new Report(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("content"),
-							new User(resultSet.getLong("author_id")),
-							new User(resultSet.getLong("inspector_id")),
-							resultSet.getTimestamp("supplied"),
-							resultSet.getTimestamp("updated"),
-							new Status(resultSet.getLong("status_id"))
-					);
+					entity = new ReportMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -82,7 +50,7 @@ public class ReportDaoImpl implements ReportDao {
 	}
 
 	@Override
-	public void update(@NotNull Report entity) {
+	public void update(@NotNull Report entity) throws SQLException {
 		String SQL_UPDATE = """
 				UPDATE %s SET code = %s, content = %s, author_id = %d, \
 				inspector_id = %d, updated = NOW(), status_id = %d
@@ -90,22 +58,14 @@ public class ReportDaoImpl implements ReportDao {
 				entity.getContent(), entity.getAuthor().getId(),
 				entity.getInspector().getId(), entity.getStatus().getId(), entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_UPDATE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_UPDATE);
 	}
 
 	@Override
-	public void delete(@NotNull Report entity) {
+	public void delete(@NotNull Report entity) throws SQLException {
 		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
 
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(SQL_DELETE);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		statementUpdate(connection, SQL_DELETE);
 	}
 
 	@Override
@@ -118,16 +78,7 @@ public class ReportDaoImpl implements ReportDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
 				while (resultSet.next()) {
-					Report entity = new Report(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("content"),
-							new User(resultSet.getLong("author_id")),
-							new User(resultSet.getLong("inspector_id")),
-							resultSet.getTimestamp("supplied"),
-							resultSet.getTimestamp("updated"),
-							new Status(resultSet.getLong("status_id"))
-					);
+					Report entity = new ReportMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -147,16 +98,7 @@ public class ReportDaoImpl implements ReportDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
 				if (resultSet.next()) {
-					entity = new Report(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("content"),
-							new User(resultSet.getLong("author_id")),
-							new User(resultSet.getLong("inspector_id")),
-							resultSet.getTimestamp("supplied"),
-							resultSet.getTimestamp("updated"),
-							new Status(resultSet.getLong("status_id"))
-					);
+					entity = new ReportMapper().extractFromResultSet(resultSet);
 				}
 			}
 		} catch (SQLException e) {
@@ -175,16 +117,7 @@ public class ReportDaoImpl implements ReportDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_AUTHOR_ID)) {
 				while (resultSet.next()) {
-					Report entity = new Report(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("content"),
-							new User(resultSet.getLong("author_id")),
-							new User(resultSet.getLong("inspector_id")),
-							resultSet.getTimestamp("supplied"),
-							resultSet.getTimestamp("updated"),
-							new Status(resultSet.getLong("status_id"))
-					);
+					Report entity = new ReportMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}
@@ -204,16 +137,7 @@ public class ReportDaoImpl implements ReportDao {
 		try (Statement statement = connection.createStatement()) {
 			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_INSPECTOR_ID)) {
 				while (resultSet.next()) {
-					Report entity = new Report(
-							resultSet.getLong("id"),
-							resultSet.getString("code"),
-							resultSet.getString("content"),
-							new User(resultSet.getLong("author_id")),
-							new User(resultSet.getLong("inspector_id")),
-							resultSet.getTimestamp("supplied"),
-							resultSet.getTimestamp("updated"),
-							new Status(resultSet.getLong("status_id"))
-					);
+					Report entity = new ReportMapper().extractFromResultSet(resultSet);
 					entityList.add(entity);
 				}
 			}

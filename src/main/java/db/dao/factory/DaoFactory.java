@@ -3,6 +3,7 @@ package db.dao.factory;
 import db.dao.*;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public abstract class DaoFactory {

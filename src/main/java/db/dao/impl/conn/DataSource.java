@@ -14,21 +14,19 @@ public class DataSource {
 	private DataSource() {
 		try {
 			// Get configuration from XML file
-			ConfigurationManager cfg = new ConfigurationManager();
+			ConfigurationManager manager = new ConfigurationManager();
 
 			// Load the class of Driver
 			//Class.forName(cfg.getDriver());
 
 			// Initialise hikari configuration
 			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(cfg.getUrl());
-			config.setUsername(cfg.getUsername());
-			config.setPassword(cfg.getPassword());
+			config.setJdbcUrl(manager.getUrl());
+			config.setUsername(manager.getUsername());
+			config.setPassword(manager.getPassword());
 
 			// Create new instance of general class
 			dataSource = new HikariDataSource(config);
-
-			//System.out.println("DataSource instance created successfully.");
 		} catch (Throwable ex) {
 			// If we have some troubles with either configuration
 			// or reading properties or access to database or sth else
@@ -52,7 +50,11 @@ public class DataSource {
 		return localInstance;
 	}
 
-	public Connection getConnection() throws SQLException {
-		return dataSource.getConnection();
+	public Connection getConnection() {
+		try {
+			return dataSource.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

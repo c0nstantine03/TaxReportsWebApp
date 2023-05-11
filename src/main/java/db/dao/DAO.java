@@ -1,31 +1,26 @@
 package db.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import org.jetbrains.annotations.NotNull;
 
-public interface DAO<T> {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+interface DAO<T> {
 
 	//create
-	void insert(T entity) throws SQLException;
+	Optional<T> insert(T entity) throws SQLException;
 
 	//read
-	T findById(Long id);
+	Optional<T> findById(Long id);
 
 	//statementUpdate
 	void update(T entity) throws SQLException;
 
 	//delete
-	void delete(T entity) throws SQLException;
-
-	default void statementUpdate(Connection connection, String query) throws SQLException {
-		try (Statement statement = connection.createStatement()) {
-			statement.executeUpdate(query);
-			connection.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.err.println("Rollback statement with query " + query);
-			connection.rollback();
-		}
-	}
+	void delete(Long id) throws SQLException;
 }

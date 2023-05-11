@@ -6,89 +6,91 @@ import db.entity.Residency;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ResidencyDaoImpl implements ResidencyDao {
+public class ResidencyDaoImpl implements ResidencyDao, General<Residency> {
+	private static final Logger logger = Logger.getLogger(ResidencyDaoImpl.class.getName());
 	private final Connection connection;
 	private final String tableName = "residency_list";
 
-	public ResidencyDaoImpl(Connection connection) {
+	public ResidencyDaoImpl(@NotNull Connection connection) {
 		this.connection = connection;
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
 	}
 
 	@Override
-	public void insert(@NotNull Residency entity) throws SQLException {
-		String SQL_INSERT = "INSERT INTO %s (code, name) VALUES (%s, %s)".
+	public Residency getMappedEntity(ResultSet resultSet) throws SQLException {
+		return new ResidencyMapper().extractFromResultSet(resultSet);
+	}
+
+	@Override
+	public Optional<Residency> insert(@NotNull Residency entity) throws SQLException {
+		String SQL_INSERT = "INSERT INTO %s (code, name) VALUES ('%s', '%s')".
 				formatted(tableName, entity.getCode(), entity.getName());
 
-		statementUpdate(connection, SQL_INSERT);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+			return findByCode(entity.getCode());
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+			connection.rollback();
+		}
+		return Optional.empty();
 	}
 
 	@Override
-	public Residency findById(Long id) {
-		Residency entity = null;
+	public Optional<Residency> findById(Long id) {
 		String SQL_SELECT_BY_ID = "SELECT id, code, name FROM %s WHERE id = %d".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
-				if (resultSet.next()) {
-					entity = new ResidencyMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_ID, logger);
 	}
 
 	@Override
 	public void update(@NotNull Residency entity) throws SQLException {
-		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s WHERE id = %d".
+		String SQL_UPDATE = "UPDATE %s SET code = '%s', name = '%s' WHERE id = %d".
 				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-		statementUpdate(connection, SQL_UPDATE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
-	public void delete(@NotNull Residency entity) throws SQLException {
-		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
+	public void delete(Long id) throws SQLException {
+		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, id);
 
-		statementUpdate(connection, SQL_DELETE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
 	public List<Residency> getAll() {
-		List<Residency> entityList = new ArrayList<>();
 		String SQL_SELECT_ALL= "SELECT id, code, name FROM %s".formatted(tableName);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
-				while (resultSet.next()) {
-					Residency entity = new ResidencyMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_ALL, logger);
 	}
 
 	@Override
-	public Residency findByCode(String code) {
-		Residency entity = null;
-		String SQL_SELECT_BY_CODE = "SELECT id, code, name FROM %s WHERE code = %s".formatted(tableName, code);
+	public Optional<Residency> findByCode(String code) {
+		String SQL_SELECT_BY_CODE = "SELECT id, code, name FROM %s WHERE code = '%s'".formatted(tableName, code);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
-				if (resultSet.next()) {
-					entity = new ResidencyMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_CODE, logger);
 	}
 }

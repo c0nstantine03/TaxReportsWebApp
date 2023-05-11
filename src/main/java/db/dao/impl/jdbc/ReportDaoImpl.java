@@ -5,68 +5,96 @@ import db.dao.impl.mapper.ReportMapper;
 import db.entity.Report;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ReportDaoImpl implements ReportDao {
+public class ReportDaoImpl implements ReportDao, General<Report> {
+	private static final Logger logger = Logger.getLogger(ReportDaoImpl.class.getName());
 	private final Connection connection;
 	private final String tableName = "report_list";
 
-	public ReportDaoImpl(Connection connection) {
+	public ReportDaoImpl(@NotNull Connection connection) {
 		this.connection = connection;
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
 	}
 
 	@Override
-	public void insert(@NotNull Report entity) throws SQLException {
+	public Report getMappedEntity(ResultSet resultSet) throws SQLException {
+		return new ReportMapper().extractFromResultSet(resultSet);
+	}
+
+	@Override
+	public Optional<Report> insert(@NotNull Report entity) throws SQLException {
 		String SQL_INSERT = """
-				INSERT INTO %s (code, content, author_id, inspector_id, status_id, comment)
-				VALUES (%s, %s, %d, %d, %d, %s)""".
-				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
-						entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment());
+				INSERT INTO %s (code, content, author_id, `comment`)
+				VALUES (?, ?, ?, ?)""".formatted(tableName);
 
-		statementUpdate(connection, SQL_INSERT);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
+			preparedStatement.setString(1, entity.getCode());
+			preparedStatement.setString(2, entity.getContent());
+			preparedStatement.setLong(3, entity.getAuthor().getId());
+			preparedStatement.setString(4, entity.getComment());
+
+			preparedStatement.executeUpdate();
+			connection.commit();
+			return findByCode(entity.getCode());
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+			connection.rollback();
+		}
+		return Optional.empty();
 	}
 
 	@Override
-	public Report findById(Long id) {
-		Report entity = null;
+	public Optional<Report> findById(Long id) {
 		String SQL_SELECT_BY_ID = """
 				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE id = %d""".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
-				if (resultSet.next()) {
-					entity = new ReportMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_ID, logger);
 	}
 
 	@Override
 	public void update(@NotNull Report entity) throws SQLException {
 		String SQL_UPDATE = """
-				UPDATE %s SET code = %s, content = %s, author_id = %d,
-				inspector_id = %d, updated = NOW(), status_id = %d, comment = %s
-				WHERE id = %d""".
-				formatted(tableName, entity.getCode(), entity.getContent(), entity.getAuthor().getId(),
-				entity.getInspector().getId(), entity.getStatus().getId(), entity.getComment(), entity.getId());
+				UPDATE %s SET code = ?, content = ?, author_id = ?,
+				inspector_id = ?, updated = NOW(), status_id = ?, comment = ?
+				WHERE id = %d""".formatted(tableName, entity.getId());
 
-		statementUpdate(connection, SQL_UPDATE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+			preparedStatement.setString(1, entity.getCode());
+			preparedStatement.setString(2, entity.getContent());
+			preparedStatement.setLong(3, entity.getAuthor().getId());
+			preparedStatement.setLong(4, entity.getInspector().getId());
+			preparedStatement.setLong(5, entity.getStatus().getId());
+			preparedStatement.setString(6, entity.getComment());
+
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
-	public void delete(@NotNull Report entity) throws SQLException {
-		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
+	public void delete(Long id) throws SQLException {
+		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, id);
 
-		statementUpdate(connection, SQL_DELETE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
@@ -75,76 +103,33 @@ public class ReportDaoImpl implements ReportDao {
 				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s""".formatted(tableName);
 
-		List<Report> entityList = new ArrayList<>();
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
-				while (resultSet.next()) {
-					Report entity = new ReportMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_ALL, logger);
 	}
 
 	@Override
-	public Report findByCode(String code) {
-		Report entity = null;
+	public Optional<Report> findByCode(String code) {
 		String SQL_SELECT_BY_CODE = """
 				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
-				FROM %s WHERE code = %s""".formatted(tableName, code);
+				FROM %s WHERE code = '%s'""".formatted(tableName, code);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
-				if (resultSet.next()) {
-					entity = new ReportMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_CODE, logger);
 	}
 
 	@Override
 	public List<Report> findForAuthor(Long id) {
-		List<Report> entityList = new ArrayList<>();
 		String SQL_SELECT_BY_AUTHOR_ID = """
 				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE author_id = %d""".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_AUTHOR_ID)) {
-				while (resultSet.next()) {
-					Report entity = new ReportMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_BY_AUTHOR_ID, logger);
 	}
 
 	@Override
 	public List<Report> findForInspector(Long id) {
-		List<Report> entityList = new ArrayList<>();
 		String SQL_SELECT_BY_INSPECTOR_ID = """
 				SELECT id, code, content, author_id, inspector_id, supplied, updated, status_id, comment
 				FROM %s WHERE inspector_id = %d""".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_INSPECTOR_ID)) {
-				while (resultSet.next()) {
-					Report entity = new ReportMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_BY_INSPECTOR_ID, logger);
 	}
 }

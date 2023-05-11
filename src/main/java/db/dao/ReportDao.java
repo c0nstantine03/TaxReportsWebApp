@@ -2,13 +2,15 @@ package db.dao;
 
 import db.entity.Report;
 
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReportDao extends DAO<Report> {
 
 	List<Report> getAll();
 
-	Report findByCode(String code);
+	Optional<Report> findByCode(String code);
 
 	List<Report> findForAuthor(Long id);
 

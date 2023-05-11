@@ -6,40 +6,53 @@ import db.entity.NextStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class NextStatusDaoImpl implements NextStatusDao {
+public class NextStatusDaoImpl implements NextStatusDao, General<NextStatus> {
+	private static final Logger logger = Logger.getLogger(NextStatusDaoImpl.class.getName());
 	private final Connection connection;
 	private final String tableName = "next_statuses";
 
-	public NextStatusDaoImpl(Connection connection) {
+	public NextStatusDaoImpl(@NotNull Connection connection) {
 		this.connection = connection;
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
 	}
 
 	@Override
-	public void insert(@NotNull NextStatus entity) throws SQLException {
+	public NextStatus getMappedEntity(ResultSet resultSet) throws SQLException {
+		return new NextStatusMapper().extractFromResultSet(resultSet);
+	}
+
+	@Override
+	public Optional<NextStatus> insert(@NotNull NextStatus entity) throws SQLException {
 		String SQL_INSERT = "INSERT INTO %s (status_id, next_status_id) VALUES (%d, %d)".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
 
-		statementUpdate(connection, SQL_INSERT);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+			return findByStatuses(entity);
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+			connection.rollback();
+		}
+		return Optional.empty();
 	}
 
 	@Override
-	public NextStatus findById(Long id) {
-		NextStatus entity = null;
-		String SQL_SELECT_BY_ID = "SELECT id, status_id, next_status_id FROM %s WHERE id = %d".formatted(tableName, id);
+	public Optional<NextStatus> findById(Long id) {
+		String SQL_SELECT_BY_ID = """
+				SELECT id, status_id, next_status_id
+				FROM %s WHERE id = %d""".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
-				if (resultSet.next()) {
-					entity = new NextStatusMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_ID, logger);
 	}
 
 	@Override
@@ -47,50 +60,51 @@ public class NextStatusDaoImpl implements NextStatusDao {
 		String SQL_UPDATE = "UPDATE %s SET status_id = %d, next_status_id = %d WHERE id = %d".
 				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId(), entity.getId());
 
-		statementUpdate(connection, SQL_UPDATE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
-	public void delete(@NotNull NextStatus entity) throws SQLException {
-		String SQL_DELETE = "DELETE FROM %s WHERE status_id = %d AND next_status_id = %d".
-				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
+	public void delete(Long id) throws SQLException {
+		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, id);
 
-		statementUpdate(connection, SQL_DELETE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
 	public List<NextStatus> getAll() {
-		List<NextStatus> entityList = new ArrayList<>();
-		String SQL_SELECT_ALL= "SELECT status_id, next_status_id FROM %s".formatted(tableName);
+		String SQL_SELECT_ALL= "SELECT id, status_id, next_status_id FROM %s".formatted(tableName);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
-				while (resultSet.next()) {
-					NextStatus entity = new NextStatusMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_ALL, logger);
 	}
 
 	@Override
 	public List<NextStatus> findNextStatuses(Long statusId) {
-		List<NextStatus> entityList = new ArrayList<>();
-		String SQL_SELECT_ALL= "SELECT status_id, next_status_id FROM %s WHERE status_id = %d".formatted(tableName, statusId);
+		String SQL_SELECT_ALL= """
+				SELECT id, status_id, next_status_id
+				FROM %s WHERE status_id = %d""".formatted(tableName, statusId);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
-				while (resultSet.next()) {
-					NextStatus entity = new NextStatusMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_ALL, logger);
+	}
+
+	@Override
+	public Optional<NextStatus> findByStatuses(@NotNull NextStatus entity) {
+		String SQL_SELECT_BY_STATUSES = """
+				SELECT id, status_id, next_status_id
+				FROM %s WHERE status_id = %d AND next_status_id = %d""".
+				formatted(tableName, entity.getCurrentStatus().getId(), entity.getNextStatus().getId());
+
+		return findOneBy(connection, SQL_SELECT_BY_STATUSES, logger);
 	}
 }

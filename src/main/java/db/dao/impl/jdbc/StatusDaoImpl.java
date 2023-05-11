@@ -6,90 +6,93 @@ import db.entity.Status;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class StatusDaoImpl implements StatusDao {
+public class StatusDaoImpl implements StatusDao, General<Status> {
+	private static final Logger logger = Logger.getLogger(StatusDaoImpl.class.getName());
 	private final Connection connection;
 	private final String tableName = "status_list";
 
-	public StatusDaoImpl(Connection connection) {
+	public StatusDaoImpl(@NotNull Connection connection) {
 		this.connection = connection;
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
 	}
 
 	@Override
-	public void insert(@NotNull Status entity) throws SQLException {
-		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES (%s, %s, %d)".
-				formatted(tableName, entity.getCode(), entity.getName(), entity.getClosed() ? 1 : 0);
-
-		statementUpdate(connection, SQL_INSERT);
+	public Status getMappedEntity(ResultSet resultSet) throws SQLException {
+		return new StatusMapper().extractFromResultSet(resultSet);
 	}
 
 	@Override
-	public Status findById(Long id) {
-		Status entity = null;
+	public Optional<Status> insert(@NotNull Status entity) throws SQLException {
+		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES ('%s', '%s', ?)".
+				formatted(tableName, entity.getCode(), entity.getName());
+
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
+			preparedStatement.setBoolean(1, entity.getClosed());
+			preparedStatement.executeUpdate();
+			connection.commit();
+			return findByCode(entity.getCode());
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+			connection.rollback();
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Status> findById(Long id) {
 		String SQL_SELECT_BY_ID = "SELECT id, code, name, closed FROM %s WHERE id = %d".formatted(tableName, id);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_ID)) {
-				if (resultSet.next()) {
-					entity = new StatusMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_ID, logger);
 	}
 
 	@Override
 	public void update(@NotNull Status entity) throws SQLException {
-		String SQL_UPDATE = "UPDATE %s SET code = %s, name = %s, closed = %d WHERE id = %d".
-				formatted(tableName, entity.getCode(), entity.getName(),
-						entity.getClosed() ? 1 : 0, entity.getId());
+		String SQL_UPDATE = "UPDATE %s SET code = '%s', name = '%s', closed = ? WHERE id = %d".
+				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
 
-		statementUpdate(connection, SQL_UPDATE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+			preparedStatement.setBoolean(1, entity.getClosed());
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
-	public void delete(@NotNull Status entity) throws SQLException {
-		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, entity.getId());
+	public void delete(Long id) throws SQLException {
+		String SQL_DELETE = "DELETE FROM %s WHERE id = %d".formatted(tableName, id);
 
-		statementUpdate(connection, SQL_DELETE);
+		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			logger.warning(e.getMessage());
+			connection.rollback();
+		}
 	}
 
 	@Override
 	public List<Status> getAll() {
-		List<Status> entityList = new ArrayList<>();
 		String SQL_SELECT_ALL= "SELECT id, code, name, closed FROM %s".formatted(tableName);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL)) {
-				while (resultSet.next()) {
-					Status entity = new StatusMapper().extractFromResultSet(resultSet);
-					entityList.add(entity);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entityList;
+		return findManyBy(connection, SQL_SELECT_ALL, logger);
 	}
 
 	@Override
-	public Status findByCode(String code) {
-		Status entity = null;
-		String SQL_SELECT_BY_CODE = "SELECT id, code, name, closed FROM %s WHERE code = %s".formatted(tableName, code);
+	public Optional<Status> findByCode(String code) {
+		String SQL_SELECT_BY_CODE = "SELECT id, code, name, closed FROM %s WHERE code = '%s'".formatted(tableName, code);
 
-		try (Statement statement = connection.createStatement()) {
-			try (ResultSet resultSet = statement.executeQuery(SQL_SELECT_BY_CODE)) {
-				if (resultSet.next()) {
-					entity = new StatusMapper().extractFromResultSet(resultSet);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return entity;
+		return findOneBy(connection, SQL_SELECT_BY_CODE, logger);
 	}
 }

@@ -34,14 +34,17 @@ public class UserDaoImpl implements UserDao, General<User> {
 	public Optional<User> insert(@NotNull User entity) throws SQLException {
 		String SQL_INSERT = """
 				INSERT INTO %s (login, password, first_name, last_name, mail, role_id, residency_id, person_id)
-				VALUES ('%s', '%s', '%s', '%s', '%s', ?, ?, ?)""".
-				formatted(tableName, entity.getLogin(), entity.getPassword(),
-						entity.getFirstName(), entity.getLastName(), entity.getMail());
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?)""".formatted(tableName);
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
-			preparedStatement.setLong(1, entity.getRole().getId());
-			preparedStatement.setLong(2, entity.getResidency().getId());
-			preparedStatement.setLong(3, entity.getPersonality().getId());
+			preparedStatement.setString(1, entity.getLogin());
+			preparedStatement.setString(2, entity.getPassword());
+			preparedStatement.setString(3, entity.getFirstName());
+			preparedStatement.setString(4, entity.getLastName());
+			preparedStatement.setString(5, entity.getMail());
+			preparedStatement.setLong(6, entity.getRole().getId());
+			preparedStatement.setLong(7, entity.getResidency().getId());
+			preparedStatement.setLong(8, entity.getPersonality().getId());
 
 			preparedStatement.executeUpdate();
 			connection.commit();
@@ -66,15 +69,19 @@ public class UserDaoImpl implements UserDao, General<User> {
 	@Override
 	public void update(@NotNull User entity) throws SQLException {
 		String SQL_UPDATE = """
-		UPDATE %s SET login = '%s', password = '%s', first_name = '%s', last_name = '%s', mail = '%s',
+		UPDATE %s SET login = ?, password = ?, first_name = ?, last_name = ?, mail = ?,
 		role_id = ?, residency_id = ?, person_id = ?, modified = NOW()
-		WHERE id = %d""".formatted(tableName, entity.getLogin(), entity.getPassword(),
-				entity.getFirstName(), entity.getLastName(), entity.getMail(), entity.getId());
+		WHERE id = %d""".formatted(tableName, entity.getId());
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-			preparedStatement.setLong(1, entity.getRole().getId());
-			preparedStatement.setLong(2, entity.getResidency().getId());
-			preparedStatement.setLong(3, entity.getPersonality().getId());
+			preparedStatement.setString(1, entity.getLogin());
+			preparedStatement.setString(2, entity.getPassword());
+			preparedStatement.setString(3, entity.getFirstName());
+			preparedStatement.setString(4, entity.getLastName());
+			preparedStatement.setString(5, entity.getMail());
+			preparedStatement.setLong(6, entity.getRole().getId());
+			preparedStatement.setLong(7, entity.getResidency().getId());
+			preparedStatement.setLong(8, entity.getPersonality().getId());
 
 			preparedStatement.executeUpdate();
 			connection.commit();

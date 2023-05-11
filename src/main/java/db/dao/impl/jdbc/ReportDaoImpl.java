@@ -33,7 +33,7 @@ public class ReportDaoImpl implements ReportDao, General<Report> {
 	@Override
 	public Optional<Report> insert(@NotNull Report entity) throws SQLException {
 		String SQL_INSERT = """
-				INSERT INTO %s (code, content, author_id, `comment`)
+				INSERT INTO %s (code, content, author_id, comment)
 				VALUES (?, ?, ?, ?)""".formatted(tableName);
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {

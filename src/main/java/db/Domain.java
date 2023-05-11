@@ -17,6 +17,7 @@ public class Domain {
 		TestStatusDao testStatusDao = new TestStatusDao();
 		TestReportsDao testReportsDao = new TestReportsDao();
 
+
 		try {
 			testPersonalityDao.getThread().join();
 			testRoleDao.getThread().join();
@@ -26,6 +27,25 @@ public class Domain {
 		} catch (InterruptedException e) {
 			e.printStackTrace(System.err);
 		}
-		System.out.println();
+		DataSource dataSource = DataSource.getInstance();
+		DaoFactory daoFactory = DaoFactory.getInstance();
+
+		try (Connection connection = dataSource.getConnection()) {
+			Thread.sleep(500);
+			ReportHistoryDao reportHistoryDao = daoFactory.createReportHistoryDao(connection);
+			List<ReportHistory> reportHistoryList = reportHistoryDao.getAll();
+			if (reportHistoryList.isEmpty()) {
+				System.out.println("There isn't any reports in history.");
+			} else {
+				for (ReportHistory report : reportHistoryList) {
+					System.out.println(report);
+				}
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

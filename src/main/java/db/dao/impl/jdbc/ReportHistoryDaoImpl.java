@@ -34,14 +34,14 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public Optional<ReportHistory> insert(@NotNull ReportHistory entity) throws SQLException {
 		String SQL_INSERT = """
 				INSERT INTO %s (code, content, author_id, inspector_id, status_id, comment)
-				VALUES ('%s', '%s', ?, ?, ?, ?)""".
-				formatted(tableName, entity.getCode(), entity.getContent());
+				VALUES ('%s', ?, ?, ?, ?, ?)""".formatted(tableName, entity.getCode());
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
-			preparedStatement.setLong(1, entity.getAuthor().getId());
-			preparedStatement.setLong(2, entity.getInspector().getId());
-			preparedStatement.setLong(3, entity.getStatus().getId());
-			preparedStatement.setString(4, entity.getComment());
+			preparedStatement.setString(1, entity.getContent());
+			preparedStatement.setLong(2, entity.getAuthor().getId());
+			preparedStatement.setLong(3, entity.getInspector().getId());
+			preparedStatement.setLong(4, entity.getStatus().getId());
+			preparedStatement.setString(5, entity.getComment());
 
 			preparedStatement.executeUpdate();
 			connection.commit();
@@ -67,8 +67,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 		String SQL_UPDATE = """
 				UPDATE %s SET code = '%s', content = ?, author_id = ?,
 				inspector_id = ?, updated = NOW(), status_id = ?, comment = ?
-				WHERE id = %d""".
-				formatted(tableName, entity.getCode(), entity.getId());
+				WHERE id = %d""".formatted(tableName, entity.getCode(), entity.getId());
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 			preparedStatement.setString(1, entity.getContent());
@@ -76,6 +75,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 			preparedStatement.setLong(3, entity.getInspector().getId());
 			preparedStatement.setLong(4, entity.getStatus().getId());
 			preparedStatement.setString(5, entity.getComment());
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
@@ -101,7 +101,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public List<ReportHistory> getAll() {
 		String SQL_SELECT_ALL = """
 				SELECT id, code, content, author_id, inspector_id,
-				supplied, updated, status_id FROM %s""".formatted(tableName);
+				updated, status_id, comment FROM %s""".formatted(tableName);
 
 		return findManyBy(connection, SQL_SELECT_ALL, logger);
 	}
@@ -110,7 +110,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public List<ReportHistory> findByCode(String code) {
 		String SQL_SELECT_BY_CODE = """
 				SELECT id, code, content, author_id, inspector_id,
-				supplied, updated, status_id FROM %s WHERE code = '%s'""".formatted(tableName, code);
+				updated, status_id, comment FROM %s WHERE code = '%s'""".formatted(tableName, code);
 
 		return findManyBy(connection, SQL_SELECT_BY_CODE, logger);
 	}
@@ -119,7 +119,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public Optional<ReportHistory> findLastByCode(String code) {
 		String SQL_SELECT_BY_CODE = """
 				SELECT id, code, content, author_id, inspector_id,
-				supplied, updated, status_id FROM %s WHERE code = '%s'
+				updated, status_id, comment FROM %s WHERE code = '%s'
 				ORDER BY id DESC LIMIT 1""".formatted(tableName, code);
 
 		return findOneBy(connection, SQL_SELECT_BY_CODE, logger);
@@ -129,7 +129,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public List<ReportHistory> findClosedForAuthor(Long id) {
 		String SQL_SELECT_BY_AUTHOR_ID = """
 				SELECT id, code, content, author_id, inspector_id,
-				supplied, updated, status_id FROM %s WHERE author_id = %d""".formatted(tableName, id);
+				updated, status_id, comment FROM %s WHERE author_id = %d""".formatted(tableName, id);
 
 		return findManyBy(connection, SQL_SELECT_BY_AUTHOR_ID, logger);
 	}
@@ -138,7 +138,7 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	public List<ReportHistory> findClosedForInspector(Long id) {
 		String SQL_SELECT_BY_INSPECTOR_ID = """
 				SELECT id, code, content, author_id, inspector_id,
-				supplied, updated, status_id FROM %s WHERE inspector_id = %d""".formatted(tableName, id);
+				updated, status_id, comment FROM %s WHERE inspector_id = %d""".formatted(tableName, id);
 
 		return findManyBy(connection, SQL_SELECT_BY_INSPECTOR_ID, logger);
 	}

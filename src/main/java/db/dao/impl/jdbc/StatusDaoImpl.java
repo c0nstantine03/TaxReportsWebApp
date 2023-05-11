@@ -32,11 +32,13 @@ public class StatusDaoImpl implements StatusDao, General<Status> {
 
 	@Override
 	public Optional<Status> insert(@NotNull Status entity) throws SQLException {
-		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES ('%s', '%s', ?)".
-				formatted(tableName, entity.getCode(), entity.getName());
+		String SQL_INSERT = "INSERT INTO %s (code, name, closed) VALUES (?, ?, ?)".formatted(tableName);
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT)) {
-			preparedStatement.setBoolean(1, entity.getClosed());
+			preparedStatement.setString(1, entity.getCode());
+			preparedStatement.setString(2, entity.getName());
+			preparedStatement.setBoolean(3, entity.getClosed());
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 			return findByCode(entity.getCode());
@@ -56,11 +58,13 @@ public class StatusDaoImpl implements StatusDao, General<Status> {
 
 	@Override
 	public void update(@NotNull Status entity) throws SQLException {
-		String SQL_UPDATE = "UPDATE %s SET code = '%s', name = '%s', closed = ? WHERE id = %d".
-				formatted(tableName, entity.getCode(), entity.getName(), entity.getId());
+		String SQL_UPDATE = "UPDATE %s SET code = ?, name = ?, closed = ? WHERE id = %d".formatted(tableName, entity.getId());
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-			preparedStatement.setBoolean(1, entity.getClosed());
+			preparedStatement.setString(1, entity.getCode());
+			preparedStatement.setString(2, entity.getName());
+			preparedStatement.setBoolean(3, entity.getClosed());
+
 			preparedStatement.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {

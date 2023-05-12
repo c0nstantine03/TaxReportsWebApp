@@ -8,6 +8,8 @@ import db.entity.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Domain {
 	public static void main(String[] args) {
@@ -43,7 +45,7 @@ public class Domain {
 				System.out.println();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Logger.getLogger(Domain.class.getName()).log(Level.WARNING, e.getMessage());
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}

@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="97e4a78d-b824-4a78-84cf-4e91171f415a" name="Changes" comment="Lab 1 with lombok annotation ALL DONE. Fixed issues.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/Domain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/Domain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683839838602</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Lab 1 with lombok annotation ALL DONE. Fixed issues.">
+      <created>1683841328451</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1683841328451</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

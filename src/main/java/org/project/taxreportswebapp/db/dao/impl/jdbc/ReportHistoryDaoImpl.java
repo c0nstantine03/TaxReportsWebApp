@@ -26,6 +26,17 @@ public class ReportHistoryDaoImpl implements ReportHistoryDao, General<ReportHis
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public ReportHistory getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new ReportHistoryMapper().extractFromResultSet(resultSet);
 	}

@@ -1,24 +1,8 @@
 package org.project.taxreportswebapp.db.dao.factory;
 
-import org.project.taxreportswebapp.db.dao.impl.jdbc.PersonalityDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.ReportDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.RoleDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.NextStatusDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.UserDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.ResidencyDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.ReportHistoryDaoImpl;
-import org.project.taxreportswebapp.db.dao.impl.jdbc.StatusDaoImpl;
-import org.project.taxreportswebapp.db.dao.ReportHistoryDao;
-import org.project.taxreportswebapp.db.dao.StatusDao;
-import org.project.taxreportswebapp.db.dao.ResidencyDao;
-import org.project.taxreportswebapp.db.dao.UserDao;
-import org.project.taxreportswebapp.db.dao.RoleDao;
-import org.project.taxreportswebapp.db.dao.PersonalityDao;
-import org.project.taxreportswebapp.db.dao.ReportDao;
-import org.project.taxreportswebapp.db.dao.NextStatusDao;
-
-import java.sql.Connection;
-import java.sql.SQLException;
+import org.project.taxreportswebapp.db.dao.impl.conn.DataSource;
+import org.project.taxreportswebapp.db.dao.impl.jdbc.*;
+import org.project.taxreportswebapp.db.dao.*;
 
 
 public class JdbcDaoFactory extends DaoFactory {
@@ -26,41 +10,41 @@ public class JdbcDaoFactory extends DaoFactory {
 	JdbcDaoFactory() {}
 
 	@Override
-	public RoleDao createRoleDao(Connection connection) {
-		return new RoleDaoImpl(connection);
+	public RoleDao createRoleDao() {
+		return new RoleDaoImpl(DataSource.getInstance().getConnection());
 	}
 
 	@Override
-	public ResidencyDao createResidencyDao(Connection connection) {
-		return new ResidencyDaoImpl(connection);
+	public ResidencyDao createResidencyDao() {
+		return new ResidencyDaoImpl(DataSource.getInstance().getConnection());
 	}
 
 	@Override
-	public PersonalityDao createPersonalityDao(Connection connection) {
-		return new PersonalityDaoImpl(connection);
+	public PersonalityDao createPersonalityDao() {
+		return new PersonalityDaoImpl(DataSource.getInstance().getConnection());
 	}
 
 	@Override
-	public UserDao createUserDao(Connection connection) {
-		return new UserDaoImpl(connection);
+	public UserDao createUserDao() {
+		return new UserDaoImpl(DataSource.getInstance().getConnection());
 	}
 
 	@Override
-	public StatusDao createStatusDao(Connection connection) {
-		return new StatusDaoImpl(connection);
+	public StatusDao createStatusDao() {
+		return new StatusDaoImpl(DataSource.getInstance().getConnection());
 	}
 
-	public NextStatusDao createNextStatusDao(Connection connection) {
-		return new NextStatusDaoImpl(connection);
-	}
-
-	@Override
-	public ReportDao createReportDao(Connection connection) {
-		return new ReportDaoImpl(connection);
+	public NextStatusDao createNextStatusDao() {
+		return new NextStatusDaoImpl(DataSource.getInstance().getConnection());
 	}
 
 	@Override
-	public ReportHistoryDao createReportHistoryDao(Connection connection) {
-		return new ReportHistoryDaoImpl(connection);
+	public ReportDao createReportDao() {
+		return new ReportDaoImpl(DataSource.getInstance().getConnection());
+	}
+
+	@Override
+	public ReportHistoryDao createReportHistoryDao() {
+		return new ReportHistoryDaoImpl(DataSource.getInstance().getConnection());
 	}
 }

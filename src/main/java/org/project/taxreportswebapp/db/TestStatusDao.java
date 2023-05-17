@@ -2,12 +2,9 @@ package org.project.taxreportswebapp.db;
 
 import org.project.taxreportswebapp.db.dao.StatusDao;
 import org.project.taxreportswebapp.db.dao.factory.DaoFactory;
-import org.project.taxreportswebapp.db.dao.impl.conn.DataSource;
 import org.project.taxreportswebapp.db.entity.Status;
 import lombok.Getter;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 @Getter
@@ -21,25 +18,22 @@ public class TestStatusDao implements Runnable {
 
 	@Override
 	public void run() {
-		DataSource dataSource = DataSource.getInstance();
 		DaoFactory daoFactory = DaoFactory.getInstance();
 
-		try (Connection connection = dataSource.getConnection()) {
+		try {
 			Thread.sleep(400);
-			StatusDao statusDao = daoFactory.createStatusDao(connection);
-			List<Status> personalityList = statusDao.getAll();
-			if (personalityList.isEmpty()) {
-				System.out.println("There isn't any statuses.");
-			} else {
-				for (Status status : personalityList) {
-					System.out.println(status);
-				}
-				System.out.println();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
+		}
+		StatusDao statusDao = daoFactory.createStatusDao();
+		List<Status> personalityList = statusDao.getAll();
+		if (personalityList.isEmpty()) {
+			System.out.println("There isn't any statuses.");
+		} else {
+			for (Status status : personalityList) {
+				System.out.println(status);
+			}
+			System.out.println();
 		}
 	}
 }

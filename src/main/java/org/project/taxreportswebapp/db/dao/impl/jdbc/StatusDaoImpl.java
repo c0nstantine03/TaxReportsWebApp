@@ -26,6 +26,17 @@ public class StatusDaoImpl implements StatusDao, General<Status> {
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public Status getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new StatusMapper().extractFromResultSet(resultSet);
 	}

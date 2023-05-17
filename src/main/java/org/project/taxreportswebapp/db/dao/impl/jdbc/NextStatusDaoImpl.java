@@ -26,6 +26,17 @@ public class NextStatusDaoImpl implements NextStatusDao, General<NextStatus> {
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public NextStatus getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new NextStatusMapper().extractFromResultSet(resultSet);
 	}

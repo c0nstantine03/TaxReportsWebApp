@@ -26,6 +26,17 @@ public class ResidencyDaoImpl implements ResidencyDao, General<Residency> {
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public Residency getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new ResidencyMapper().extractFromResultSet(resultSet);
 	}

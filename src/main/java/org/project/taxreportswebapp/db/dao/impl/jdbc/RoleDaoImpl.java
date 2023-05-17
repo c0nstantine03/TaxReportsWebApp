@@ -26,6 +26,17 @@ public class RoleDaoImpl implements RoleDao, General<Role> {
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public Role getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new RoleMapper().extractFromResultSet(resultSet);
 	}

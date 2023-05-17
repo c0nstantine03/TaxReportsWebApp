@@ -26,6 +26,17 @@ public class UserDaoImpl implements UserDao, General<User> {
 	}
 
 	@Override
+	public void finalize() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
+			}
+		} catch (SQLException e) {
+			logger.log(Level.WARNING, e.getMessage());
+		}
+	}
+
+	@Override
 	public User getMappedEntity(ResultSet resultSet) throws SQLException {
 		return new UserMapper().extractFromResultSet(resultSet);
 	}

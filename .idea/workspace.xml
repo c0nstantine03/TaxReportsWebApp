@@ -5,47 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f63b082e-7918-46aa-9411-a3ff27d587ae" name="Changes" comment="Beginning of lab2-web.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/servlets/NewServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/Domain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/DAO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/NextStatusDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/PersonalityDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/ReportDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/ReportHistoryDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/ResidencyDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/RoleDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/StatusDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/UserDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/DaoFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/factory/JdbcDaoFactory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/ConfigurationManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/conn/DataSource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/NextStatusDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/PersonalityDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/ResidencyDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/RoleDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/StatusDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/jdbc/UserDaoImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/NextStatusMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/PersonalityMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/ReportHistoryMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/ReportMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/ResidencyMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/RoleMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/StatusMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/dao/impl/mapper/UserMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/NextStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Personality.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Report.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/ReportHistory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Residency.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Role.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/Status.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/db/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/Domain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/Domain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/TestPersonalityDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/TestPersonalityDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/factory/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/factory/DaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/factory/JdbcDaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/factory/JdbcDaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/NextStatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/NextStatusDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/PersonalityDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/PersonalityDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ResidencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/ResidencyDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/RoleDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/RoleDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/StatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/StatusDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/taxreportswebapp/db/dao/impl/jdbc/UserDaoImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,15 +51,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Kostya/Documents/NetBeansProjects/TaxReportsWebApp",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kostya/Documents/NetBeansProjects/TaxReportsWebApp&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Kostya\Documents\NetBeansProjects\TaxReportsWebApp" />
@@ -110,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683920960353</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Beginning of lab2-web.">
+      <created>1684092170978</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1684092170978</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

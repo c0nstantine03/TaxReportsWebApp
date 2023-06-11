@@ -2,6 +2,7 @@ package org.project.trwa.db.dao.impl.jdbc;
 
 import org.project.trwa.db.dao.UserDao;
 import org.project.trwa.db.dao.impl.mapper.UserMapper;
+import org.project.trwa.db.entity.Role;
 import org.project.trwa.db.entity.User;
 import org.jetbrains.annotations.NotNull;
 
@@ -122,6 +123,16 @@ public class UserDaoImpl implements UserDao, General<User> {
 		residency_id, person_id, is_enable, created, modified FROM %s""".formatted(tableName);
 
 		return findManyBy(connection, SQL_SELECT_ALL, logger);
+	}
+
+	@Override
+	public List<User> getByRole(@NotNull Role role) {
+		String SQL_SELECT_BY_ROLE = """
+		SELECT id, login, password, first_name, last_name, mail, role_id,
+		residency_id, person_id, is_enable, created, modified
+		FROM %s WHERE role_id = %d""".formatted(tableName, role.getId());
+
+		return findManyBy(connection, SQL_SELECT_BY_ROLE, logger);
 	}
 
 	@Override

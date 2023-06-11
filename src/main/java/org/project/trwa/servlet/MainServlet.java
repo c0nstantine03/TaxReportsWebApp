@@ -1,23 +1,25 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package servlets;
+package org.project.trwa.servlet;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Kostya
- */
-public class NewServlet extends HttpServlet {
+import org.project.trwa.server.commands.CommandController;
+import org.project.trwa.server.commands.impl.LoginCommand;
+import org.project.trwa.server.commands.impl.SignUpCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@WebServlet(urlPatterns = {"/html/login", "/html/signup", "/html/logout"})
+public class MainServlet extends HttpServlet {
+    private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +38,10 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet MainServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MainServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,6 +74,35 @@ public class NewServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        String command = request.getParameter("command");
+        HttpSession session = request.getSession();
+        logger.info("Command: " + command);
+        switch (command) {
+            case "login" -> {
+                CommandController loginCommand = new LoginCommand();
+                if (loginCommand.execute(request, response)) {
+                    response.sendRedirect("/html/home.jsp");
+                } else {
+                    request.setAttribute("error", "Invalid username or password");
+                    request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+                }
+            }
+            case "signup" -> {
+                CommandController signUpCommand = new SignUpCommand();
+                if (signUpCommand.execute(request, response)) {
+                    response.sendRedirect("/html/home.jsp");
+                } else {
+                    request.setAttribute("error", "That login or email is already taken");
+                    request.getRequestDispatcher("/html/signup.jsp").forward(request, response);
+                }
+            }
+            case "logout" -> {
+                session.setAttribute("user", null);
+                response.sendRedirect("/html/login.jsp");
+            }
+            default -> {
+            }
+        }
     }
 
     /**
@@ -82,6 +113,7 @@ public class NewServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
+    // </editor-fold>
 
 }

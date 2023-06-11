@@ -2,6 +2,7 @@ package org.project.trwa.db.dao.impl.conn;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,17 +14,8 @@ public class DataSource {
 
 	private DataSource() {
 		try {
-			// Get configuration from XML file
-			ConfigurationManager manager = new ConfigurationManager();
-
-			// Load the class of Driver
-			//Class.forName(cfg.getDriver());
-
 			// Initialise hikari configuration
-			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(manager.getUrl());
-			config.setUsername(manager.getUsername());
-			config.setPassword(manager.getPassword());
+			HikariConfig config = new HikariConfig("src/main/resources/hikari.properties");
 
 			// Create new instance of general class
 			dataSource = new HikariDataSource(config);

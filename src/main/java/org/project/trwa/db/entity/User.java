@@ -4,20 +4,33 @@ import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "user_list")
 public class User implements Cloneable {
-	private final Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
+	private Long id;
 	private String login;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String mail;
+	@ManyToOne
+	@JoinColumn(name = "role_id")
 	private Role role;
+	@ManyToOne
+	@JoinColumn(name = "residency_id")
 	private Residency residency;
+	@ManyToOne
+	@JoinColumn(name = "person_id")
 	private Personality personality;
 	private Boolean isEnable;
 	private Timestamp created;

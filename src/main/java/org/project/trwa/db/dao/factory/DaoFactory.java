@@ -20,7 +20,7 @@ public abstract class DaoFactory {
 			synchronized (DaoFactory.class) {
 				localInstance = instance;
 				if (localInstance == null) {
-					instance = localInstance = new JdbcDaoFactory();
+					instance = localInstance = new JbaDaoFactory();
 				}
 			}
 		}

@@ -1,15 +1,24 @@
 package org.project.trwa.db.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "next_statuses")
 public class NextStatus implements Cloneable {
-	private final Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@ManyToOne
+	@JoinColumn(name = "status_id")
 	private Status currentStatus;
+	@ManyToOne
+	@JoinColumn(name = "next_status_id")
 	private Status nextStatus;
 
 	@Override

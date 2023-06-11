@@ -1,23 +1,34 @@
 package org.project.trwa.db.entity;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "report_list")
 public class Report implements Cloneable {
-	private final Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String code;
 	private String content;
+	@ManyToOne
+	@JoinColumn(name = "author_id")
 	private User author;
+	@ManyToOne
+	@JoinColumn(name = "inspector_id")
 	private User inspector;
 	private Timestamp supplied;
 	private Timestamp updated;
+	@ManyToOne
+	@JoinColumn(name = "status_id")
 	private Status status;
 	private String comment;
 

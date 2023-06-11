@@ -8,6 +8,8 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/taxReports</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
-        <!-- other Hibernate properties here -->
+
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
     </session-factory>
 </hibernate-configuration>

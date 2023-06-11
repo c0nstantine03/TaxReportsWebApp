@@ -2,13 +2,19 @@ package org.project.trwa.db.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "status_list")
 public class Status implements Cloneable {
-	private final Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String code;
 	private String name;
 	private Boolean closed;

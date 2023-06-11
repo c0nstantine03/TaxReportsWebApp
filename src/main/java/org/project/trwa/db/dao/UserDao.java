@@ -16,6 +16,4 @@ public interface UserDao extends DAO<User> {
 	Optional<User> findByLogin(String login);
 
 	Optional<User> findByLoginAndPassword(String login, String password);
-
-	void changeEnable(String login, Boolean enable) throws SQLException;
 }

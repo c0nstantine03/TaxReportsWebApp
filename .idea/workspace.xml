@@ -5,8 +5,54 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f63b082e-7918-46aa-9411-a3ff27d587ae" name="Changes" comment="Lab-2 maybe done but actually not.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/factory/JbaDaoFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/servlet/MainServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/servlet/MainServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/Domain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/TestPersonalityDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/TestReportsDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/TestResidencyDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/TestRoleDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/TestStatusDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/factory/DaoFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/factory/DaoFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/factory/JdbcDaoFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/General.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/NextStatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/NextStatusDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/PersonalityDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/PersonalityDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/ReportDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/ReportDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/ReportHistoryDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/ReportHistoryDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/ResidencyDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/ResidencyDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/RoleDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/RoleDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/StatusDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/StatusDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jdbc/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/jba/UserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/NextStatusMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/PersonalityMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/ReportHistoryMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/ReportMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/ResidencyMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/RoleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/StatusMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/dao/impl/mapper/UserMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/NextStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/NextStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Personality.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Personality.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/ReportHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/ReportHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Residency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Residency.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/project/trwa/db/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/commands/CommandController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/commands/impl/LoginCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/commands/impl/SignUpCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/ReportHistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/ReportService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/impl/ReportHistoryServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/impl/ReportServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/server/services/impl/UserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/project/trwa/servlet/MainServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +63,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -26,7 +72,7 @@
     <branch-grouping />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="lab2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,7 +114,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Kostya/Documents/NetBeansProjects/TaxReportsWebApp",
+    "last_opened_file_path": "C:/Users/Kostya/Documents/NetBeansProjects/TaxReportsWebApp/src/main/java/org/project/trwa/db/dao/impl/jba",
     "settings.editor.selected.configurable": "vcs.Git"
   }
 }]]></component>
@@ -77,6 +123,7 @@
       <recent name="org.project.trwa.server.commands.impl" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Kostya\Documents\NetBeansProjects\TaxReportsWebApp\src\main\java\org\project\trwa\db\dao\impl\jba" />
       <recent name="C:\Users\Kostya\Documents\NetBeansProjects\TaxReportsWebApp" />
       <recent name="C:\Users\Kostya\Documents\NetBeansProjects\TaxReportsWebApp\src\main\resources" />
     </key>
@@ -132,7 +179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686455741721</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Lab-2 maybe done but actually not.">
+      <created>1686456275473</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1686456275473</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

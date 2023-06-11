@@ -17,7 +17,7 @@ import org.project.trwa.server.commands.impl.SignUpCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(urlPatterns = {"/html/login", "/html/signup", "/html/logout"})
+@WebServlet(urlPatterns = {"/jsp/login", "/jsp/signup", "/jsp/authorized", "/jsp/home"})
 public class MainServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(MainServlet.class);
 
@@ -81,24 +81,24 @@ public class MainServlet extends HttpServlet {
             case "login" -> {
                 CommandController loginCommand = new LoginCommand();
                 if (loginCommand.execute(request, response)) {
-                    response.sendRedirect("/html/home.jsp");
+                    response.sendRedirect("/jsp/authorized.jsp");
                 } else {
                     request.setAttribute("error", "Invalid username or password");
-                    request.getRequestDispatcher("/html/login.jsp").forward(request, response);
+                    request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
                 }
             }
             case "signup" -> {
                 CommandController signUpCommand = new SignUpCommand();
                 if (signUpCommand.execute(request, response)) {
-                    response.sendRedirect("/html/home.jsp");
+                    response.sendRedirect("/jsp/authorized.jsp");
                 } else {
                     request.setAttribute("error", "That login or email is already taken");
-                    request.getRequestDispatcher("/html/signup.jsp").forward(request, response);
+                    request.getRequestDispatcher("/jsp/signup.jsp").forward(request, response);
                 }
             }
             case "logout" -> {
                 session.setAttribute("user", null);
-                response.sendRedirect("/html/login.jsp");
+                response.sendRedirect("/jsp/home.jsp");
             }
             default -> {
             }
